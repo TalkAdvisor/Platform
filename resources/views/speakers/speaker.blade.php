@@ -20,8 +20,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <hr class="visible-xs">
-                                    <p><strong>講師: </strong>{{$speaker->talker_name}}</p>
-                                    <p>{{$speaker->talker_description}}</p>
+                                    <p><strong>講師: </strong>{{$speaker->speaker_name}}</p>
+                                    <p>{{$speaker->speaker_description}}</p>
                                 </div>
                             </div>
                             <br>

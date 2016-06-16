@@ -21,8 +21,8 @@
                                 </div>
                                 <div class="col-md-9" >
                                     <hr class="visible-xs">
-                                    <p><strong>講師: </strong>{{$speaker->talker_name}}</p>
-                                    <p>{{$speaker->talker_description}}</p>
+                                    <p><strong>講師: </strong>{{$speaker->speaker_name}}</p>
+                                    <p>{{$speaker->speaker_description}}</p>
                                     <p><a href="{{url('speaker').'/'.$speaker->id}}" class="btn btn-primary">詳細資訊</a></p>
                                 </div>
                             </div>

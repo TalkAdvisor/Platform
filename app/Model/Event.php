@@ -7,13 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     //
-    public function talkers()
+
+    public function talks()
     {
-        return $this->belongsTo('App\Model\Talker');
+        return $this->hasMany('App\Model\Talk');
     }
 
-    public function reviews()
+    public function locations()
     {
-        return $this->hasMany('App\Model\Review');
+        return $this->belongsToMany('App\Model\Location')->withTimestamps();
+    }
+
+    public function organizers()
+    {
+        return $this->belongsToMany('App\Model\Organizer')->withTimestamps();
+    }
+
+    public function series()
+    {
+        return $this->belongsTo('App\Model\Series');
     }
 }

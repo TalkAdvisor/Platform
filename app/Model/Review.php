@@ -12,8 +12,8 @@ class Review extends Model
         return $this->belongsToMany('App\Model\ReviewOption')->withPivot('score_id')->withTimestamps();
     }
 
-    public function event()
+    public function talk()
     {
-        return $this->belongsTo('App\Model\Event');
+        return $this->belongsTo('App\Model\Talk');
     }
 }

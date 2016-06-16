@@ -46,6 +46,7 @@
                                 <th>User Email</th>
                                 <th>Comment</th>
                                 <th>Talk</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,12 +56,26 @@
                                     <td>{{$review->user_name}}</td>
                                     <td>{{$review->user_email}}</td>
                                     <td>{{$review->comment}}</td>
-                                    <td>{{$review->event_id}}</td>
+                                    <td>{{$review->talk_id}}</td>
+                                    <td>
+                                        <div>
+                                        <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
+                                        
+                                            {!! Form::open([
+                                                'method' => 'DELETE',
+                                                'style' => 'display:inline-block',
+                                                'url' => 'review/'.$review->id
+                                            ]) !!}
+                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
+                    {{ $reviews->render() }}
                 </div>
             </div>
         </div>
@@ -79,10 +94,10 @@
                             {{ csrf_field() }}
                             <div class="form-group  col-md-12">
                                 <h3><label>演講的主題</label></h3>
-                                <select class="form-control" name="event_id">
-                                    @foreach ($events as $event)
-                                        <option value="{{ $event->id }}"
-                                                @if (old('event_id') == $event->id) selected="selected" @endif>{{ $event->topic }}</option>
+                                <select class="form-control" name="talk_id">
+                                    @foreach ($talks as $talk)
+                                        <option value="{{ $talk->id }}"
+                                                @if (old('talk_id') == $talk->id) selected="selected" @endif>{{ $talk->topic }}</option>
                                     @endforeach
                                 </select>
                             </div>

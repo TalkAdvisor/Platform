@@ -4,7 +4,6 @@
     <div id="page-wrapper">
 
         <div class="container-fluid">
-
             <!-- Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
@@ -23,16 +22,29 @@
                 </div>
             </div>
             <!-- /.row -->
+            @if(Session::has('message'))
+                <p class="alert {{ Session::get('alert-class') }}">{{ Session::get('message') }}</p>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-sm-11">
+                        <div class="col-sm-9">
                             <h2>Talk</h2>
                         </div>
                         <div class="col-sm-1">
-                            <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#gridSystemModal">
-                                <i class="fa fa-btn fa-plus"></i> Create
+                            <button type="submit" class="btn btn-default" id="btn-addSeries">
+                                <i class="fa fa-btn fa-plus"></i> Create Series
                             </button>
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-default" id="btn-addEvent">
+                                <i class="fa fa-btn fa-plus"></i> Create Event
+                            </button>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="{{url('admin/talk/create')}}" class="btn btn-default">
+                                <i class="fa fa-btn fa-plus"></i> Create Talk
+                            </a>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -46,23 +58,38 @@
                                 <th>Date</th>
                                 <th>City</th>
                                 <th>Location</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach ($events as $event)
+                            @foreach ($talks as $talk)
                                 <tr>
-                                    <td>{{$event->id}}</td>
-                                    <td>{{$event->topic}}</td>
-                                    <td>{{$event->event}}</td>
-                                    <td>{{$event->event_series}}</td>
-                                    <td>{{$event->start_date}}</td>
-                                    <td>{{$event->talk_city}}</td>
-                                    <td>{{$event->talk_location}}</td>
+                                    <td>{{$talk->id}}</td>
+                                    <td>{{$talk->topic}}</td>
+                                    <td>{{$talk->talk}}</td>
+                                    <td>{{$talk->talk_series}}</td>
+                                    <td>{{$talk->start_date}}</td>
+                                    <td>{{$talk->talk_city}}</td>
+                                    <td>{{$talk->talk_location}}</td>
+                                    <td>
+                                        <div>
+                                        <button class="btn btn-info open-modal" name="talk_update" value="{{$talk->id}}" id="btn-update">Update</button>
+                                        
+                                            {!! Form::open([
+                                                'method' => 'DELETE',
+                                                'style' => 'display:inline-block',
+                                                'url' => 'talk/'.$talk->id
+                                            ]) !!}
+                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                            {!! Form::close() !!}
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
+                    {{ $talks->render() }}
                 </div>
             </div>
         </div>
@@ -76,37 +103,43 @@
                         <h4 class="modal-title" id="gridSystemModalLabel">Create Talk</h4>
                     </div>
                     <div class="modal-body">
-                        <form action='{{url('event')}}' id="eventForm" method="POST" class="form-horizontal">
+                        <form action='{{url('talk')}}' id="talkForm" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
 
                             <div class="form-group  col-md-12">
                                 <h3><label for="questionnaire-topic">演講的講題</label></h3>
                                 <p>按照演講邀請書上寫的</p>
-                                <input type="text" name="topic" id="questionnaire-topic" class="form-control"
+                                <input type="text" name="topic" id="auto1" class="form-control"
                                        value="{{old('topic')}}">
                                 @if ($errors->has('topic'))<br><p
                                         class="alert alert-danger">{{ $errors->first('topic') }}</p> @endif
                             </div>
-                            <div class="form-group  col-md-12">
+                            <div class=" form-group col-md-12">
                                 <h3><label>演講的講者</label></h3>
-                                        <select class="form-control" name="talker_id">
-                                            <option  value="0" selected>請選擇講師</option>
-                                            @foreach ($speakers as $speaker)
-                                                <option value="{{ $speaker->id }}" @if (old('talker_id') == $speaker->id) selected="selected" @endif>{{ $speaker->talker_name }}</option>
-                                            @endforeach
-                                        </select>
+                                <div id="firstSpeaker"> 
+                                    <input type="text" name="speaker-name[]"  autocomplete="off" spellcheck="false" class="form-control typeahead tt-query"
+                                           value="{{old('speaker-name[0]')}}">     
+                                           <button name="showSecondField" type="button" class="btn btn-default"><i class="fa fa-btn fa-plus"></i></button>
+                                    <input type="hidden" name="speaker-id[]" value="">       
+                                </div>       
+                                <div id="secondSpeaker" style="display:none;">       
+                                    <input type="text" name="speaker-name[]"  autocomplete="off" spellcheck="false" class="form-control typeahead tt-query"
+                                           value="{{old('speaker-name[1]')}}">
+                                           <button name="hideSecondField" type="button" class="btn btn-default"><i class="fa fa-btn fa-minus"></i></button>
+                                    <input type="hidden" name="speaker-id[]" value="">         
+                                </div>  
+                                @if ($errors->has('speaker-name'))<br><p
+                                        class="alert alert-danger">{{ $errors->first('speaker-name') }}</p> @endif              
                             </div>
                             <div class="form-group  col-md-12">
                                 <h3><label for="questionnaire-event">如果本次演講屬於較大的活動，請填寫此活動的名稱</label></h3>
                                 <p>例如：創業小聚：第62場</p>
-                                <input type="text" name="event" id="questionnaire-event" class="form-control"
-                                       value="">
+                                <input type="text" name="event" id="questionnaire-event" class="form-control" value="{{old('event')}}">
                             </div>
                             <div class="form-group  col-md-12">
                                 <h3><label for="questionnaire-series">如果本次演講或者活動屬於一個系列，請填寫此系列的名稱</label></h3>
                                 <p>例如：『與創業達人有約』</p>
-                                <input type="text" name="series" id="questionnaire-series" class="form-control"
-                                       value="">
+                                <input type="text" name="series" id="questionnaire-series" class="form-control" value="{{old('series')}}">
                             </div>
                             <div class="form-group  col-md-12">
                                 <h3><label for="questionnaire-date">演講日期</label></h3>
@@ -264,7 +297,7 @@
                                         <input name="organizer[]" type="checkbox" value="999"
                                                @if (old('organizer')) @if (in_array(999,old('organizer'))) checked @endif @endif>Other
                                         <input type="text" name="organizer-field" id="organizer-field"
-                                               value="{{old("organizer-field")}}">
+                                               value="{{old('organizer-field')}}">
                                     </label>
                                 </div>
                                 @if ($errors->has('organizer'))<br><p
@@ -275,11 +308,7 @@
                             <div class="form-group  col-md-12">
                                 <h3><label for="questionnaire-quote">值得分享的引述</label></h3>
                                 <p>不記得講師講過什麼特別有趣的話，沒關係，留空白</p>
-                                <input type="text" name="quote" id="questionnaire-quote" class="form-control">
-                            </div>
-                            <div class="form-group col-md-12" style="display:none">
-                                <input type="text" name="form-type" class="form-control"
-                                       value="single">
+                                <input type="text" name="quote" id="questionnaire-quote" class="form-control" value="{{old('quote')}}">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -301,5 +330,126 @@
         $('.input-group.date').datepicker({
             format: 'yyyy/mm/dd',
         });
+        var field_inex = 0;
+    $('button[name="showSecondField"]').click(function(){
+        /*$( 'input[name="speaker-name-'+field_inex+'"]' ).clone().prop('name', 'speaker-name-'+parseInt(field_inex+1)).insertAfter( 'button[name="createSpeakerField"]' );
+        field_inex = parseInt(field_inex+1);
+        console.log(field_inex);*/
+        $('#secondSpeaker').show();
+    });
+    $('button[name="hideSecondField"]').click(function(){
+        var secondField = $('#secondSpeaker');
+        secondField.find( "input" ).val('');
+        secondField.hide();
+    });
+        var speakers = {!!json_encode($speakers)!!};
+
+        speakers = new Bloodhound({
+          datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.speaker_name); },
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          // `states` is an array of state names defined in "The Basics"
+          local: speakers
+        });
+
+        $('input.typeahead').typeahead({
+          minLength: 1,
+          highlight: true,
+          hint: true
+        },
+        {
+          name: 'my-dataset',
+          source:  speakers.ttAdapter(),
+          displayKey: 'speaker_name'
+        });
+
+        $('input.typeahead').bind('typeahead:select', function(ev, suggestion) {
+            $(this).parent().parent().children('input[type= "hidden"]').val(suggestion.id);
+        });
+
+    $(document).ready(function(){
+        var url = "/talk";
+        //display modal form for creating new talk
+        $('#btn-add').click(function(){
+            $('.alert').remove();
+            $('#talkForm').trigger("reset");
+            $('#talkForm').attr('action','{{url('talk')}}');
+            $('#talkForm').attr('method','POST');
+            $('#gridSystemModalLabel').text('Create Talk');
+            $('#gridSystemModal').modal('show');
+        });
+
+
+        $('.open-modal').click(function(){
+            $('#talkForm').trigger("reset");
+            $('.alert').remove();
+            var talk_id = $(this).val(); 
+            
+            $.ajax({
+                type: 'GET',
+                url: url+'/'+talk_id,
+                success: function (data) {
+                    $('#speaker-name').val(data.speaker_name);
+                    $('#speaker-en-name').val(data.speaker_englishname);
+                    $('#speaker-company').val(data.speaker_company);
+                    $('#speaker-title').val('');
+                    $('#speaker-lang').val($("input[name='']:checked").val());
+                    $('#speakerForm').find(':radio[name=speaker-lang][value="'+data.speaker_language+'"]').prop('checked', true);
+                    $('#speaker-description').val(data.speaker_description);
+                    $('#speaker-email').val(data.speaker_email);
+                    $('#speaker-image').val('');
+                    $('#talkForm').attr('action',url+'/'+talk_id);
+                    $('#talkForm').attr('method','POST');
+                    $('#gridSystemModalLabel').text('Update Speaker');
+                    $('#gridSystemModal').modal('show');
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+            }
+        });
+        });
+    });
     </script>
+    <style type="text/css">
+        .typeahead, .tt-hint {
+            border: 2px solid #CCCCCC;
+            /*border-radius: 8px;*/
+            height: 30px;
+            line-height: 30px;
+            outline: medium none;
+            padding: 8px 12px;
+            width: 100%;
+        }
+        .typeahead {
+            background-color: #FFFFFF;
+        }
+        .tt-hint {
+            color: #999999;
+        }
+        .tt-menu {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 12px;
+            padding: 8px 0;
+            width: 100%;
+        }
+        .tt-suggestion {
+            font-size: 24px;
+            line-height: 24px;
+            padding: 3px 20px;
+        }
+        .tt-selectable:hover {
+            background-color: #0097CF;
+            color: #FFFFFF;
+            cursor:pointer;
+        }
+        .tt-suggestion p {
+            margin: 0;
+        }
+
+        .twitter-typeahead{
+            width:90%;
+        }
+    </style>
 @endsection

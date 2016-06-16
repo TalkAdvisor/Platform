@@ -6,74 +6,87 @@ namespace App\Http\Controllers;
 use View;
 use Redirect;
 use Session;
-
 use Illuminate\Http\Request;
-use App\Model\Talker;
-use App\Model\Event;
+use App\Http\Controllers\Speaker\SpeakerController;
+use App\Http\Controllers\Speaker\TalkController;
+use App\Model\Speaker;
+use App\Model\Talk;
 use App\Model\Review;
 use App\Model\Util;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TalkerFormRequest;
-use App\Http\Requests\EventFormRequest;
+use App\Http\Requests\SpeakerFormRequest;
+use App\Http\Requests\TalkFormRequest;
 use App\Http\Requests\ReviewFormRequest;
 
 class FormController extends Controller
 {
 
 
-    public function createTalker(TalkerFormRequest $request)
+    public function createSpeaker(SpeakerFormRequest $request)
     {
-        $talker = new Talker;
-        $talker->talker_name = $request->input('talker-name');
-        $talker->talker_englishname = $request->input('talker-en-name');
-        $talker->talker_company = $request->input('talker-company');
-        $talker->talker_title = $request->input('talker-title');
-        $talker->talker_language = $request->input('talker-lang');
-        $talker->talker_description = $request->input('talker-description');
-        $talker->talker_email = $request->input('talker_email');
-        $file = $request->file('image');
-        if($file != null){
-            $image_name = time()."-".$file->getClientOriginalName();
-            $file->move('uploads/speakers/', $image_name);
-            $talker->talker_photo = 'uploads/speakers/'.$image_name;
-            $talker->local_path = $image_name;
+        
+        $speakerController = new SpeakerController;
+        $response = $speakerController->store($request);
+
+        if($response['status']){
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-success'); 
+        }else{
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-danger'); 
         }
-        $formType = $request->input('form-type');
-        $talker->save();
-        $talkerId = $talker->id;
-        switch($formType) {
-            case 'single':
-                return  Redirect::to('/admin/speaker');
-            case 'flow':
-                return  Redirect::to('/admin/form/event?speakerId='.$talkerId);
-        }
+
+        return  Redirect::to('/admin/speaker');
     }
-    public function createEvent(EventFormRequest $request)
+
+    public function updateSpeaker(SpeakerFormRequest $request, $id)
     {
-        $event = new Event;
-        $event->topic =  $request->input('topic');
-        $event->event =  $request->input('event');
-        $event->event_series =  $request->input('series');
-        $event->start_date =  $request->input('date');
-        $event->talk_city =  $request->input('city');
-        $event->extend_city =  $request->input('city-field');
-        $event->talk_location =  $request->input('location');
-        $event->extend_location =  $request->input('location-field');
-        $event->organizer =  implode('|',$request->input('organizer'));
-        $event->extend_organizer =  $request->input('organizer-field');
-        $event->talker_quote =  $request->input('quote');
-        $event->talker_id =  $request->input('talker_id');
-        $event->save();
+        
+        $speakerController = new SpeakerController;
+        $response = $speakerController->update($request, $id);
 
-        $formType = $request->input('form-type');
-        $eventId = $event->id;
-
-        switch($formType) {
-            case 'single':
-                return  Redirect::to('/admin/talk');
-            case 'flow':
-                return  Redirect::to('/admin/form/review?speakerId='.$eventId);
+        if($response['status']){
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-success'); 
+        }else{
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-danger'); 
         }
+
+        return  Redirect::to('/admin/speaker');
+    }
+
+    public function deleteSpeaker($id)
+    {
+        
+        $speakerController = new SpeakerController;
+        $response = $speakerController->delete($id);
+
+        if($response['status']){
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-success'); 
+        }else{
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-danger'); 
+        }
+
+        return  Redirect::to('/admin/speaker');
+    }
+
+    public function createTalk(TalkFormRequest $request)
+    {
+        $talkController = new TalkController;
+        $response = $talkController->store($request);
+
+        if($response['status']){
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-success'); 
+        }else{
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-danger'); 
+        }
+
+        return  Redirect::to('/admin/talk');
     }
 
     public function createReview(ReviewFormRequest $request)
@@ -82,7 +95,7 @@ class FormController extends Controller
         $review->user_name =  $request->input('interviewee-name');
         $review->user_email =  $request->input('interviewee-email');
         $review->comment =  ($request->input('comment')!= "")? $request->input('comment') : null;
-        $review->event_id =  $request->input('event_id');
+        $review->talk_id =  $request->input('talk_id');
         $review->save();
 
         $review = Review::find($review->id);
@@ -99,17 +112,18 @@ class FormController extends Controller
         }
         $review->save();
         $formType = $request->input('form-type');
-        $eventId = $review->id;
-        $talkerId = $request->input('talker_id');
+        $talkId = $review->id;
+        $speakerId = $request->input('speaker_id');
 
         switch($formType) {
             case 'single':
                 return  Redirect::to('/admin/review');
             case 'flow':
-                return  Redirect::to('/admin/form/review?speakerId='.$eventId);
+                return  Redirect::to('/admin/form/review?speakerId='.$talkId);
             case 'frontend':
-                return  Redirect::to('/speaker/'.$talkerId);
+                return  Redirect::to('/speaker/'.$speakerId);
         }
     }
+
 
 }

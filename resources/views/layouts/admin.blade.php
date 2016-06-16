@@ -32,15 +32,11 @@
     <![endif]-->
 
     <!-- JavaScripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src={!! json_encode(url('/js/plugins/morris/raphael.min.js')) !!}></script>
-    <script src={!! json_encode(url('/js/plugins/morris/morris.min.js')) !!}></script>
-    <script src={!! json_encode(url('/js/plugins/morris/morris-data.js')) !!}></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
-
+    <!--<script type="text/javascript" src="http://www.tutorialrepublic.com/examples/js/typeahead.min.js"></script>-->
+    <script type="text/javascript" src="{{url('js/typeahead.bundle.min.js')}}"></script>
 </head>
 
 <body>
@@ -162,16 +158,30 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li data-toggle="dashboard">
+                <li data-toggle="dashboard" @if(Session::get('tab')=='dashboard') class="active" @endif>
                     <a href={{url('/admin/dashboard')}}><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
-                <li data-toggle="speaker">
+                <li data-toggle="speaker" @if(Session::get('tab')=='speaker') class="active" @endif>
                     <a href="{{url('/admin/speaker')}}"><i class="fa fa-fw fa-male" data-toggle="speaker"></i> Speakers</a>
                 </li>
-                <li data-toggle="talk">
-                    <a href="{{url('/admin/talk')}}"><i class="fa fa-fw fa-comments-o"></i> Talks</a>
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-comments-o"></i> Talks </a>
+                    <ul id="demo" class="collapse">
+                        <li @if(Session::get('tab')=='series') style="background-color: #080808;" @endif>
+                            <a href="#"><i class="fa fa-fw fa-th-large"></i> Series</a>
+                        </li>
+                        <li @if(Session::get('tab')=='event') style="background-color: #080808;" @endif>
+                            <a href="#"><i class="fa fa-fw fa-newspaper-o"></i> Events</a>
+                        </li>
+                        <li @if(Session::get('tab')=='talk') style="background-color: #080808;" @endif>
+                            <a href="{{url('/admin/talk')}}"><i class="fa fa-fw fa-comments-o"></i> Talks</a>
+                        </li>
+                        <li @if(Session::get('tab')=='others') style="background-color: #080808;" @endif>
+                            <a href="#"><i class="fa fa-fw fa-cogs"></i> Others</a>
+                        </li>
+                    </ul>
                 </li>
-                <li data-toggle="review">
+                <li data-toggle="review" @if(Session::get('tab')=='review') class="active" @endif>
                     <a href="{{url('/admin/review')}}"><i class="fa fa-fw fa-wpforms"></i> Reviews</a>
                 </li>
                 <!--<li>
@@ -207,16 +217,11 @@
 
 </div>
 <!-- /#page-wrapper -->
+@if(Session::get('tab')=='talk')
 <script>
-    $(window).load(function() {
-        var href = window.location.href.split( '/' );
-        activaTab(href[href.length-1]);
-    });
-    function activaTab(tab){
-        //$('#'+tab).tab('show');
-        $("li[data-toggle="+tab+"]").addClass('active');
-    };
+    $('#demo').prev().click();
 </script>
+@endif
 </body>
 
 </html>

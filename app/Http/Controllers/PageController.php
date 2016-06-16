@@ -8,14 +8,18 @@ use Redirect;
 use Session;
 
 use Illuminate\Http\Request;
-use App\Model\Talker;
+use App\Model\Speaker;
 use App\Model\Util;
+use App\Model\Talk;
 use App\Model\Event;
+use App\Model\Series;
+use App\Model\Organizer;
+use App\Model\Location;
 use App\Model\Review;
 use App\Model\ReviewOption;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionnaireFormRequest;
-use App\Http\Requests\TalkerFormRequest;
+use App\Http\Requests\SpeakerFormRequest;
 
 class PageController extends Controller
 {
@@ -25,23 +29,23 @@ class PageController extends Controller
     {
         switch($type){
             case 'speaker':
-                return View::make('admin.form.speaker')->with("speakers",Talker::all());
-            case 'event':
+                return View::make('admin.form.speaker')->with("speakers",Speaker::all());
+            case 'talk':
                 $speakerId = $request->input('speakerId');
-                $eventData = array(
-                    "speaker" => Talker::find($speakerId),
-                    "event" => Event::where("talker_id",'=', $speakerId)->get()
+                $talkData = array(
+                    "speaker" => Speaker::find($speakerId),
+                    "talk" => Talk::where("speaker_id",'=', $speakerId)->get()
                 );
-                return View::make('admin.form.event')->with("eventData",$eventData);
+                return View::make('admin.form.talk')->with("talkData",$talkData);
             case 'review':
                 $speakerId = $request->input('speakerId');
-                $eventId = $request->input('eventId');
+                $talkId = $request->input('talkId');
                 $reviewData = array(
-                    "speaker" => Talker::find($speakerId),
-                    "event" => Event::where("talker_id",'=', $speakerId)->get(),
+                    "speaker" => Speaker::find($speakerId),
+                    "talk" => Talk::where("speaker_id",'=', $speakerId)->get(),
                     "score" => Util::getScores()
                 );
-                return View::make('admin.form.review',array('speakerId' => $speakerId, 'eventId' => $eventId))->with("reviewData",$reviewData);
+                return View::make('admin.form.review',array('speakerId' => $speakerId, 'talkId' => $talkId))->with("reviewData",$reviewData);
             default:
                 return Redirect::to('/');
         }
@@ -49,46 +53,71 @@ class PageController extends Controller
 
     public function getAdminPage($type)
     {
+        Session::forget('tab');
         switch($type){
             case 'speaker':
-                return View::make('admin.speaker.index')->with("speakers",Talker::all());
+                Session::flash('tab', 'speaker');
+                return View::make('admin.speaker.index')->with("speakers",Speaker::paginate(10));
             case 'talk':
-                return View::make('admin.event.index')->with("events",Event::all())->with("speakers",Talker::all());
+                Session::flash('tab', 'talk');
+                return View::make('admin.talk.index')->with("talks",Talk::paginate(10))->with("speakers",Speaker::all());
+                //return Talk::find(27)->speakers()->orderBy('id')->get();
             case 'review':
-                return View::make('admin.review.index')->with("reviews",Review::all())->with("events",Event::all())->with("scores",Util::getScores());
+                Session::flash('tab', 'review');
+                return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("talks",Talk::all())->with("scores",Util::getScores());
             case 'dashboard':
+                Session::flash('tab', 'dashboard');
                 return View::make('admin.dashboard');
             default:
                 return Redirect::to('/');
         }
     }
 
+    public function getAdminFormPage($type)
+    {
+        Session::forget('tab');
+        switch($type){
+            case 'speaker':
+                Session::flash('tab', 'speaker');
+                return View::make('admin.speaker.index')->with("speakers",Speaker::paginate(10));
+            case 'talk':
+                Session::flash('tab', 'talk');
+                return View::make('admin.talk.create')->with("speakers",Speaker::all())->with("events",Event::all())->with("locations",location::all())->with("series",Series::all())->with("organizers",Organizer::all());
+                //return Talk::find(27)->speakers()->orderBy('id')->get();
+            case 'review':
+                Session::flash('tab', 'review');
+                return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("talks",Talk::all())->with("scores",Util::getScores());
+            default:
+                return Redirect::to('/');
+        }
+    }
+
     public function getSpeakerPage(){
-        return View::make('talkers.speakers')->with('speakers',Talker::all());
-        //return View::make('talkers.speakers')->with('speakers',Talker::all()->whereIn('id', [110,114,139,140,141]));
+        return View::make('speakers.speakers')->with('speakers',Speaker::all());
+        //return View::make('speakers.speakers')->with('speakers',Speaker::all()->whereIn('id', [110,114,139,140,141]));
     }
 
     public function getSpeakerDetailPage($id){
-        $talker = Talker::find($id);
-        $events = $talker->events;
-        $eventId = array();
-        foreach($events as $event){
-            $eventId[] = $event->id;
+        $speaker = Speaker::find($id);
+        $talks = $speaker->talks;
+        $talkId = array();
+        foreach($talks as $talk){
+            $talkId[] = $talk->id;
         }
-        $reviews = Review::whereIn('event_id',$eventId)->whereNotNull('comment')->get();
+        $reviews = Review::whereIn('talk_id',$talkId)->whereNotNull('comment')->get();
         //$review_options = ReviewOption::all();
         if(count($reviews) == 0){
             $review_options = array();
         }else{
             $review_options =  $reviews->first()->review_options()->get();
         }
-        return View::make('talkers.speaker')->with('speaker',$talker)->with('events',$events)->with('reviews',$reviews)->with('review_options',$review_options);
+        return View::make('speakers.speaker')->with('speaker',$speaker)->with('talks',$talks)->with('reviews',$reviews)->with('review_options',$review_options);
     }
 
     public function getReviewPage($id){
-        $talker = Talker::find($id);
-        $events = $talker->events;
-        return View::make('talkers.createReview')->with('speaker',$talker)->with('events',$events)->with('score', Util::getScores());;
+        $speaker = Speaker::find($id);
+        $talks = $speaker->talks;
+        return View::make('speakers.createReview')->with('speaker',$speaker)->with('talks',$talks)->with('score', Util::getScores());;
     }
 
 }
