@@ -24,7 +24,9 @@ use App\Http\Requests\SpeakerFormRequest;
 class PageController extends Controller
 {
 
-
+    public function login(){
+        return View::make('admin.login');
+    }
     public function getFormPage($type, Request $request)
     {
         switch($type){
