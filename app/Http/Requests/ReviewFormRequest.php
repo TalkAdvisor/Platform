@@ -16,11 +16,13 @@ class ReviewFormRequest extends Request
     public function rules()
     {
         return [
+            'speaker-name' => 'required',
             'total-score' => 'required',
             'relevance-score' => 'required',
             'clear-score' => 'required',
             'inspiration-score' => 'required',
             'interest-score' => 'required',
+            // 'interviewee-quote' => 'required',
             'interviewee-name' => 'required',
             'interviewee-email' => 'required'
         ];
@@ -29,11 +31,13 @@ class ReviewFormRequest extends Request
     public function messages()
     {
         return [
+            'speaker-name.required' => '講師的姓名不得為空白',
             'total-score.required' => '總和評分不得為空白',
             'relevance-score.required' => '與預告講題的相關度不得為空白',
             'clear-score.required' => '容易懂不得為空白',
             'inspiration-score.required' => '啓發性不得為空白',
             'interest-score.required' => '讓人投入不得為空白',
+            'interviewee-quote.required' => '金句不得為空白',
             'interviewee-name.required' => '你的姓名不得為空白',
             'interviewee-email.required' => '你的email不得為空白'
         ];

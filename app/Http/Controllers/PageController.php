@@ -66,7 +66,7 @@ class PageController extends Controller
                 //return Talk::find(27)->speakers()->orderBy('id')->get();
             case 'review':
                 Session::flash('tab', 'review');
-                return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("talks",Talk::all())->with("scores",Util::getScores());
+                return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("reviewsAll",Review::all())->with("options",ReviewOption::all())->with("talks",Talk::all())->with("scores",Util::getScores())->with("speakers",Speaker::all());
             case 'dashboard':
                 Session::flash('tab', 'dashboard');
                 return View::make('admin.dashboard');
@@ -88,7 +88,7 @@ class PageController extends Controller
                 //return Talk::find(27)->speakers()->orderBy('id')->get();
             case 'review':
                 Session::flash('tab', 'review');
-                return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("talks",Talk::all())->with("scores",Util::getScores());
+                return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("reviewsAll",Review::all())->with("options",ReviewOption::all())->with("talks",Talk::all())->with("speakers",Speaker::all())->with("scores",Util::getScores());
             default:
                 return Redirect::to('/');
         }

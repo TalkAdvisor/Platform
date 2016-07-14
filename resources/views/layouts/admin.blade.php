@@ -63,7 +63,6 @@
                     <li>
                         <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                     </li>
-                    <li><a href="{{ url('/register') }}">Register</a></li>
                     <!--<li>
                         <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                     </li>
@@ -86,7 +85,7 @@
                 <li data-toggle="speaker" @if(Session::get('tab')=='speaker') class="active" @endif>
                     <a href="{{url('/admin/speaker')}}"><i class="fa fa-fw fa-male" data-toggle="speaker"></i> Speakers</a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-comments-o"></i> Talks </a>
                     <ul id="demo" class="collapse">
                         <li @if(Session::get('tab')=='series') style="background-color: #080808;" @endif>
@@ -102,7 +101,7 @@
                             <a href="#"><i class="fa fa-fw fa-cogs"></i> Others</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li data-toggle="review" @if(Session::get('tab')=='review') class="active" @endif>
                     <a href="{{url('/admin/review')}}"><i class="fa fa-fw fa-wpforms"></i> Reviews</a>
                 </li>
