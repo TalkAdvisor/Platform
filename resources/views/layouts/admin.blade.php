@@ -63,7 +63,9 @@
                     <li>
                         <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                     </li>
+                    @role('admin')
                     <li><a href="{{ url('/register') }}">Register</a></li>
+                    @endrole
                     <!--<li>
                         <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
                     </li>
