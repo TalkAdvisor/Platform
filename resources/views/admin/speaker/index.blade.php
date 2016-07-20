@@ -43,7 +43,6 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>English Name</th>
-                                <th>Language</th>
                                 <th>Company</th>
                                 <th>Title</th>
                                 <th>Email</th>
@@ -56,7 +55,6 @@
                                     <td>{{$speaker->id}}</td>
                                     <td>{{$speaker->speaker_name}}</td>
                                     <td>{{$speaker->speaker_englishname}}</td>
-                                    <td>{{$speaker->speaker_language}}</td>
                                     <td>{{$speaker->speaker_company}}</td>
                                     <td>{{$speaker->speaker_title}}</td>
                                     <td>{{$speaker->speaker_email}}</td>
@@ -153,6 +151,11 @@
                                         <textarea rows="5" name="speaker-description" id="speaker-description" class="form-control">{{old('speaker-description')}}</textarea>
                                     </div>
                                     <div class="form-group col-md-12">
+                                        <h3><label for="speaker-source">介紹的來源</label></h3>
+                                        <p></p>
+                                        <input type="text" name="speaker-source" id="speaker-source" class="form-control" value="{{old('speaker-source')}}">
+                                    </div>
+                                    <div class="form-group col-md-12">
                                         <h3><label for="speaker-email">講師的email</label></h3>
                                         <p>有了講師的email就可以邀請他設定他的profile。不知道可以留空白。</p>
                                         <input type="text" name="speaker-email" id="speaker-email" class="form-control" value="{{old('speaker-email')}}">
@@ -221,9 +224,8 @@
                     $('#speaker-en-name').val(data.speaker_englishname);
                     $('#speaker-company').val(data.speaker_company);
                     $('#speaker-title').val(data.speaker_title);
-                    $('#speaker-lang').val($("input[name='']:checked").val());
-                    $('#speakerForm').find(':radio[name=speaker-lang][value="'+data.speaker_language+'"]').prop('checked', true);
                     $('#speaker-description').val(data.speaker_description);
+                    $('#speaker-source').val(data.source);
                     $('#speaker-email').val(data.speaker_email);
                     $('#speaker-image').val('');
                     $('#speakerForm').attr('action',url+'/'+speaker_id);

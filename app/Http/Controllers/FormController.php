@@ -94,8 +94,8 @@ class FormController extends Controller
     public function createReview(ReviewFormRequest $request)
     {
         $review = new Review;
-        $review->user_name =  $request->input('interviewee-name');
-        $review->user_email =  $request->input('interviewee-email');
+        $review->user_id =  $request->input('interviewee-id');
+        //$review->user_email =  $request->input('interviewee-email');
         $review->comment =  ($request->input('comment')!= "")? $request->input('comment') : null;
         $review->quote =  ($request->input('interviewee-quote')!= "")? $request->input('interviewee-quote') : null;
         $review->talk_id =  $request->input('talk_id');
@@ -132,13 +132,16 @@ class FormController extends Controller
     public function updateReview(ReviewFormRequest $request, $id)
     {
         $review = Review::find($id);
-        $review->user_name =  $request->input('interviewee-name');
-        $review->user_email =  $request->input('interviewee-email');
+        $review->user_id =  $request->input('interviewee-id');
+        //$review->user_email =  $request->input('interviewee-email');
         $review->comment =  ($request->input('comment')!= "")? $request->input('comment') : null;
         $review->quote =  ($request->input('interviewee-quote')!= "")? $request->input('interviewee-quote') : null;
         $review->talk_id =  $request->input('talk_id');
         $review->speaker_id =  $request->input('speaker_id');
         $review->save();
+
+        $reviewController = new ReviewController;
+        $response = $reviewController->deleteOption($id);
 
         $review = Review::find($review->id);
         $score_array = array(
@@ -165,6 +168,8 @@ class FormController extends Controller
             case 'frontend':
                 return  Redirect::to('/speaker/'.$speakerId);
         }
+
+
     }
 
     public function deleteReview($id)

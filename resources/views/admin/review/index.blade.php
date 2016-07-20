@@ -23,6 +23,7 @@
                     </ol>
                 </div>
             </div>
+            <div id="message"></div>
             <!-- /.row -->
             @if(Session::has('message'))
                 <p class="alert {{ Session::get('alert-class') }}">{{ Session::get('message') }}</p>
@@ -35,7 +36,7 @@
                         </div>
                         <div class="col-sm-1">
                             <button type="submit" class="btn btn-default btn-hide" id="btn-view">
-                                <i class="fa fa-btn fa-eye"></i> Views
+                                <i class="fa fa-btn fa-eye" id="check">查看自己</i> 
                             </button>
                         </div>
                         <div class="col-sm-1">
@@ -50,9 +51,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>User Name</th>
-                                <th>User Email</th>
+                                <th>Speaker</th>
                                 <th>Comment</th>
-                                <th>Talk</th>
+                                <!-- <th>Talk</th> -->
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -60,21 +61,20 @@
                             @foreach ($reviews as $review)
                                 <tr>
                                     <td>{{$review->id}}</td>
-                                    <td>{{$review->user_name}}</td>
-                                    <td>{{$review->user_email}}</td>
-                                    <td>{{$review->comment}}</td>
-                                    <td>{{$review->talk_id}}</td>
+                                    <td>{{$review->user->name}}</td>
+                                    <td>{{$review->speaker->speaker_name}}</td>
+                                    <td><div class="overflow">{{$review->comment}}</div></td>
+                                    <!-- <td>{{$review->talk_id}}</td> -->
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
-                                        
-                                            {!! Form::open([
+                                            <!-- {!! Form::open([
                                                 'method' => 'DELETE',
                                                 'style' => 'display:inline-block',
                                                 'url' => 'review/'.$review->id
                                             ]) !!}
                                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!}
+                                            {!! Form::close() !!} -->
                                         </div>
                                     </td>
                                 </tr>
@@ -88,9 +88,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>User Name</th>
-                                <th>User Email</th>
+                                <th>Speaker</th>
                                 <th>Comment</th>
-                                <th>Talk</th>
+                                <!-- <th>Talk</th> -->
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -98,26 +98,25 @@
                             <?php
                             foreach ($reviewsAll as $review){
 
-                                if(strcmp($review->user_name,Auth::user()->name)==0){
+                                if(strcmp($review->user->id,Auth::user()->id)==0){
                             
                             ?>
                                 <tr>
                                     <td>{{$review->id}}</td>
-                                    <td>{{$review->user_name}}</td>
-                                    <td>{{$review->user_email}}</td>
-                                    <td>{{$review->comment}}</td>
-                                    <td>{{$review->talk_id}}</td>
+                                    <td>{{$review->user->name}}</td>
+                                    <td>{{$review->speaker->speaker_name}}</td>
+                                    <td><div class="overflow">{{$review->comment}}</div></td>
+                                    <!-- <td>{{$review->talk_id}}</td> -->
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
-                                        
-                                            {!! Form::open([
+                                            <!-- {!! Form::open([
                                                 'method' => 'DELETE',
                                                 'style' => 'display:inline-block',
                                                 'url' => 'review/'.$review->id
                                             ]) !!}
                                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!}
+                                            {!! Form::close() !!} -->
                                         </div>
                                     </td>
                                 </tr>
@@ -159,7 +158,7 @@
                                     <input type="text" name="speaker-name" id="speaker-name" autocomplete="off" spellcheck="false" class="form-control typeahead tt-query"
                                            value="{{old('speaker-name')}}">     
                                            <!-- <button name="showSecondField" type="button" class="btn btn-default"><i class="fa fa-btn fa-plus"></i></button> -->
-                                    <input type="hidden" name="speaker_id" value="">
+                                    <input type="hidden" name="speaker_id" id="speaker_id" value="">
                                          
                                 </div>       
                                 <!-- <div id="secondSpeaker" style="display:none;">       
@@ -256,6 +255,7 @@
                                 @if ($errors->has('interviewee-email'))<br><p
                                         class="alert alert-danger">{{ $errors->first('interviewee-email') }}</p> @endif
                             </div> -->
+                            <input type="hidden" name="interviewee-id" value="{{Auth::user()->id}}">
                             <input type="hidden" name="interviewee-name" value="{{Auth::user()->name}}">
                             <input type="hidden" name="interviewee-email" value="{{Auth::user()->email}}">
                             <div class="form-group col-md-12" style="display:none">
@@ -280,6 +280,22 @@
     @endif
 
     <script>
+    //抓url值
+    var strUrl = location.search;
+    var getPara, ParaVal;
+    var aryPara = [];
+    if (strUrl.indexOf("?") != -1) {
+        var getSearch = strUrl.split("?");
+        getPara = getSearch[1].split("&");
+        for (i = 0; i < getPara.length; i++) {
+            ParaVal = getPara[i].split("=");
+            aryPara.push(ParaVal[0]);
+            aryPara[ParaVal[0]] = ParaVal[1];
+        }
+    }
+    //end
+
+
     $(document).ready(function(){
         var url = "/review";
         //display modal form for creating new speaker
@@ -294,40 +310,72 @@
 
 
         $('.open-modal').click(function(){
-            $('#reviewForm').trigger("reset");
-            $('.alert').remove();
-            var review_id = $(this).val(); 
-            
-            $.ajax({
-                type: 'GET',
-                url: url+'/'+review_id,
+            var rid = $(this).val();
+            @foreach($reviewsAll as $review)
+                if(rid == {{$review->id}}){
+                    var upId = "{{$review->user_id}}";
+                }
+                
+            @endforeach
+            console.log(rid);
+            console.log(upId);
+           
+            if("{{Auth::user()->id}}" == upId){
+                $('#reviewForm').trigger("reset");
+                $('.alert').remove();
+                var review_id = $(this).val();
+                
+                $.ajax({
+                    type: 'GET',
+                    url: url+'/'+review_id,
 
-                success: function (data) {
-                    @foreach ($speakers as $speaker)
-                        if({{$speaker->id}} == data.speaker_id){
-                            var name = '{{$speaker->speaker_name}}';
-                        }
-                    @endforeach
-                    $('#speaker-name').val(name);
-                    $('#questionnaire-comment').val(data.comment);
-                    $('#questionnaire-interviewee-quote').val(data.quote);
-                    $('#total-score').val($("input[name='']:checked").val());
+                    success: function (data) {
+                        @foreach ($speakers as $speaker)
+                            if({{$speaker->id}} == data.speaker_id){
+                                var name = '{{$speaker->speaker_name}}';
+                            }
+                        @endforeach
+                        $('#speaker-name').val(name);
+                        $('#speaker_id').val(data.speaker_id);
+                        $('#questionnaire-comment').val(data.comment);
+                        $('#questionnaire-interviewee-quote').val(data.quote);
 
-                    @foreach ($options as $review)
                         
-                    @endforeach
-                    
-                    $('#reviewForm').find(':radio[name=total-score][value="'+data.speaker_language+'"]').prop('checked', true);
-                    $('#reviewForm').attr('action',url+'/'+review_id);
-                    $('#reviewForm').attr('method','POST');
-                    $('#gridSystemModalLabel').text('Update Review');
-                    $('#gridSystemModal').modal('show');
-                },
-                error: function (data) {
-                    console.log('Error:', data);
-                    // console.log(review_id);
+                        var i = 0;
+                        var score = [];
+                        @foreach ($reviewsOptions as $reviewsOption)
+                            if({{$reviewsOption->id}} == review_id){
+                                @foreach ($reviewsOption->review_options as $reviews_Option)
+                                    // console.log({{$reviews_Option->pivot->score_id}});
+                                    score[i] = "{{$reviews_Option->pivot->score_id}}";
+                                    i++;
+                                @endforeach
+                            }
+                        @endforeach
+
+                        @for ($line = 0; $line < count($scores); $line++)
+                            $('#reviewForm').find(':radio[name={{$scores[$line]["name"]}}][value="'+score[{{$line}}]+'"]').prop('checked', true);
+                        @endfor
+
+                        $('#reviewForm').attr('action',url+'/'+review_id);
+                        $('#reviewForm').attr('method','POST');
+                        $('#gridSystemModalLabel').text('Update Review');
+                        $('#gridSystemModal').modal('show');
+                        $("#message").empty().append();
+
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                    }
+                });
+                
+            } else {
+                // alert('不能修改別人的項目，請選擇你上傳的項目');
+                
+                var message = '<p class="alert alert-danger">不能修改別人的評論，請選擇你上傳的評論</p>';
+                $('#message').empty().append(message);
+                
             }
-        });
         });
     });
     </script>
@@ -362,7 +410,19 @@
         $(document).ready(function(){
             $('.btn-hide').click(function(){
                 $('.table-hide').slideToggle("slow");
+                $('.pagination').slideToggle("slow");
                 $('.table-show').slideToggle("slow");
+            });
+            $("#check").click(function() {
+                    if ($(this).text() == "查看自己") 
+                      { 
+                         $(this).text("查看全部"); 
+                      } 
+                      else 
+                      { 
+                         $(this).text("查看自己"); 
+                      }; 
+
             });
         });
     </script>
@@ -410,6 +470,12 @@
         }
         .table-hide{
             display: none;
+        }
+        .overflow{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 400px;
         }
 
     </style>

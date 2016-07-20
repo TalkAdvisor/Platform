@@ -8,6 +8,7 @@ use Session;
 
 use Illuminate\Http\Request;
 use App\Model\Review;
+use App\Model\ReviewOption;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReviewFormRequest;
 
@@ -25,10 +26,17 @@ class ReviewController extends Controller
         return $review;
     }
 
+    public function deleteOption($id)
+    {
+        $review = Review::find($id);
+        $review->review_options()->detach();
+    }
+
     public function delete($id)
     {
         try{
           $review = Review::find($id);
+          $review->review_options()->detach();
           $review->delete();
           
           return array(
