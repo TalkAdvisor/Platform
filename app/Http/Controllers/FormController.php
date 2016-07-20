@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 
+
 use View;
 use Redirect;
 use Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Speaker\SpeakerController;
 use App\Http\Controllers\Speaker\TalkController;
+use App\Http\Controllers\Review\ReviewController;
 use App\Model\Speaker;
 use App\Model\Talk;
 use App\Model\Review;
@@ -92,10 +94,12 @@ class FormController extends Controller
     public function createReview(ReviewFormRequest $request)
     {
         $review = new Review;
-        $review->user_name =  $request->input('interviewee-name');
-        $review->user_email =  $request->input('interviewee-email');
+        $review->user_id =  $request->input('interviewee-id');
+        //$review->user_email =  $request->input('interviewee-email');
         $review->comment =  ($request->input('comment')!= "")? $request->input('comment') : null;
+        $review->quote =  ($request->input('interviewee-quote')!= "")? $request->input('interviewee-quote') : null;
         $review->talk_id =  $request->input('talk_id');
+        $review->speaker_id =  $request->input('speaker_id');
         $review->save();
 
         $review = Review::find($review->id);
@@ -107,7 +111,7 @@ class FormController extends Controller
             5 => $request->input('interest-score'),
             //6 => $request->input('content-score')
         );
-        for($i=1;$i<count($score_array);$i++) {
+        for($i=1;$i<=count($score_array);$i++) {
             $review->review_options()->attach($i,['score_id'=>$score_array[$i]]);
         }
         $review->save();
@@ -123,6 +127,66 @@ class FormController extends Controller
             case 'frontend':
                 return  Redirect::to('/speaker/'.$speakerId);
         }
+    }
+
+    public function updateReview(ReviewFormRequest $request, $id)
+    {
+        $review = Review::find($id);
+        $review->user_id =  $request->input('interviewee-id');
+        //$review->user_email =  $request->input('interviewee-email');
+        $review->comment =  ($request->input('comment')!= "")? $request->input('comment') : null;
+        $review->quote =  ($request->input('interviewee-quote')!= "")? $request->input('interviewee-quote') : null;
+        $review->talk_id =  $request->input('talk_id');
+        $review->speaker_id =  $request->input('speaker_id');
+        $review->save();
+
+        $reviewController = new ReviewController;
+        $response = $reviewController->deleteOption($id);
+
+        $review = Review::find($review->id);
+        $score_array = array(
+            1 => $request->input('total-score'),
+            2 => $request->input('relevance-score'),
+            3 => $request->input('clear-score'),
+            4 => $request->input('inspiration-score'),
+            5 => $request->input('interest-score'),
+            //6 => $request->input('content-score')
+        );
+        for($i=1;$i<=count($score_array);$i++) {
+            $review->review_options()->attach($i,['score_id'=>$score_array[$i]]);
+        }
+        $review->save();
+        $formType = $request->input('form-type');
+        $talkId = $review->id;
+        $speakerId = $request->input('speaker_id');
+
+        switch($formType) {
+            case 'single':
+                return  Redirect::to('/admin/review');
+            case 'flow':
+                return  Redirect::to('/admin/form/review?speakerId='.$talkId);
+            case 'frontend':
+                return  Redirect::to('/speaker/'.$speakerId);
+        }
+
+
+    }
+
+    public function deleteReview($id)
+    {
+        
+        $reviewController = new ReviewController;
+        $response = $reviewController->delete($id);
+
+        if($response['status']){
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-success'); 
+        }else{
+            Session::flash('message', $response['message']);
+            Session::flash('alert-class', 'alert-danger'); 
+        }
+
+        return  Redirect::to('/admin/review');
     }
 
 

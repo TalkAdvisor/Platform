@@ -43,7 +43,10 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>English Name</th>
+<<<<<<< HEAD
                                 <!-- <th>Language</th> -->
+=======
+>>>>>>> origin/dev
                                 <th>Company</th>
                                 <th>Title</th>
                                 <th>Email</th>
@@ -56,7 +59,10 @@
                                     <td>{{$speaker->id}}</td>
                                     <td>{{$speaker->speaker_name}}</td>
                                     <td>{{$speaker->speaker_englishname}}</td>
+<<<<<<< HEAD
                                     <!-- <td>{{$speaker->speaker_language}}</td> -->
+=======
+>>>>>>> origin/dev
                                     <td>{{$speaker->speaker_company}}</td>
                                     <td>{{$speaker->speaker_title}}</td>
                                     <td>{{$speaker->speaker_email}}</td>
@@ -64,13 +70,13 @@
                                         <div>
                                         <button class="btn btn-info open-modal" name="speaker_update" value="{{$speaker->id}}" id="btn-update">Update</button>
                                         
-                                            {!! Form::open([
+                                            <!-- {!! Form::open([
                                                 'method' => 'DELETE',
                                                 'style' => 'display:inline-block',
                                                 'url' => 'speaker/'.$speaker->id
                                             ]) !!}
                                                 {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!}
+                                            {!! Form::close() !!} -->
                                         </div>
                                     </td>
                                 </tr>
@@ -98,7 +104,9 @@
                                     {{ csrf_field() }}
                                     <div class="form-group col-md-12">
                                         <h3><label for="speaker-name">講師的姓名</label></h3>
-                                        <p>中文姓名，例如：黃韋力</p>
+                                        <!-- <p>中文姓名，例如：黃韋力</p> -->
+                                        <p>中文講師：用中文名字，例如：黃韋力</p>
+                                        <p>英文講師：用英文名字，例如：Willie Huang</p>
                                         <input type="text" name="speaker-name" id="speaker-name" class="form-control" value="{{old('speaker-name')}}"> @if ($errors->has('speaker-name'))
                                             <br>
                                             <p class="alert alert-danger">{{ $errors->first('speaker-name') }}</p> @endif
@@ -122,7 +130,7 @@
                                         <p></p>
                                         <input type="text" name="speaker-title" id="speaker-title" class="form-control" value="{{old('speaker-title')}}">
                                     </div>
-                                    <div class="form-group col-md-12">
+                                    <!-- <div class="form-group col-md-12">
                                         <h3><label for="speaker-lang">講師發表演講通常用的語言</label></h3>
                                         <p></p>
                                         <div class="radio">
@@ -144,11 +152,16 @@
                                             <p class="alert alert-danger">{{ $errors->first('speaker-lang') }}</p> @endif @if ($errors->has('speaker-lang-field'))
                                             <br>
                                             <p class="alert alert-danger">{{ $errors->first('speaker-lang-field') }}</p> @endif
-                                    </div>
+                                    </div> -->
                                     <div class="form-group col-md-12">
                                         <h3><label for="speaker-description">講師的簡單介紹</label></h3>
                                         <p>盡量廣泛，不要限制於本次的演講。如果網路上尚有講師的簡介可以直接複製到這裡或者提供超鏈接</p>
                                         <textarea rows="5" name="speaker-description" id="speaker-description" class="form-control">{{old('speaker-description')}}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <h3><label for="speaker-source">介紹的來源</label></h3>
+                                        <p></p>
+                                        <input type="text" name="speaker-source" id="speaker-source" class="form-control" value="{{old('speaker-source')}}">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <h3><label for="speaker-email">講師的email</label></h3>
@@ -214,13 +227,13 @@
                 type: 'GET',
                 url: url+'/'+speaker_id,
                 success: function (data) {
+                    console.log(data);
                     $('#speaker-name').val(data.speaker_name);
                     $('#speaker-en-name').val(data.speaker_englishname);
                     $('#speaker-company').val(data.speaker_company);
-                    $('#speaker-title').val('');
-                    $('#speaker-lang').val($("input[name='']:checked").val());
-                    $('#speakerForm').find(':radio[name=speaker-lang][value="'+data.speaker_language+'"]').prop('checked', true);
+                    $('#speaker-title').val(data.speaker_title);
                     $('#speaker-description').val(data.speaker_description);
+                    $('#speaker-source').val(data.source);
                     $('#speaker-email').val(data.speaker_email);
                     $('#speaker-image').val('');
                     $('#speakerForm').attr('action',url+'/'+speaker_id);

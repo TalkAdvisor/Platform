@@ -33,8 +33,12 @@ class SpeakerController extends Controller
 	        $speaker->speaker_englishname = $request->input('speaker-en-name');
 	        $speaker->speaker_company = $request->input('speaker-company');
 	        $speaker->speaker_title = $request->input('speaker-title');
+<<<<<<< HEAD
 	        // $speaker->speaker_language = $request->input('speaker-lang');
+=======
+>>>>>>> origin/dev
 	        $speaker->speaker_description = $request->input('speaker-description');
+          $speaker->source = $request->input('speaker-source');
 	        $speaker->speaker_email = $request->input('speaker-email');
 	        $file = $request->file('image');
 	        if($file != null){
@@ -67,8 +71,8 @@ class SpeakerController extends Controller
 	        $speaker->speaker_englishname = $request->input('speaker-en-name');
 	        $speaker->speaker_company = $request->input('speaker-company');
 	        $speaker->speaker_title = $request->input('speaker-title');
-	        $speaker->speaker_language = $request->input('speaker-lang');
 	        $speaker->speaker_description = $request->input('speaker-description');
+          $speaker->source = $request->input('speaker-source');
 	        $speaker->speaker_email = $request->input('speaker-email');
 	        $file = $request->file('image');
 	        if($file != null){
