@@ -33,7 +33,7 @@ class SpeakerController extends Controller
 	        $speaker->speaker_englishname = $request->input('speaker-en-name');
 	        $speaker->speaker_company = $request->input('speaker-company');
 	        $speaker->speaker_title = $request->input('speaker-title');
-	        $speaker->speaker_language = $request->input('speaker-lang');
+	        // $speaker->speaker_language = $request->input('speaker-lang');
 	        $speaker->speaker_description = $request->input('speaker-description');
 	        $speaker->speaker_email = $request->input('speaker-email');
 	        $file = $request->file('image');

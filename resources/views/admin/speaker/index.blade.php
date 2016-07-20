@@ -43,7 +43,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>English Name</th>
-                                <th>Language</th>
+                                <!-- <th>Language</th> -->
                                 <th>Company</th>
                                 <th>Title</th>
                                 <th>Email</th>
@@ -56,7 +56,7 @@
                                     <td>{{$speaker->id}}</td>
                                     <td>{{$speaker->speaker_name}}</td>
                                     <td>{{$speaker->speaker_englishname}}</td>
-                                    <td>{{$speaker->speaker_language}}</td>
+                                    <!-- <td>{{$speaker->speaker_language}}</td> -->
                                     <td>{{$speaker->speaker_company}}</td>
                                     <td>{{$speaker->speaker_title}}</td>
                                     <td>{{$speaker->speaker_email}}</td>
