@@ -17,6 +17,7 @@ class ReviewFormRequest extends Request
     {
         return [
             'speaker-name' => 'required',
+            'speaker_id' => 'required',
             'total-score' => 'required',
             'relevance-score' => 'required',
             'clear-score' => 'required',

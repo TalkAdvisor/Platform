@@ -314,3 +314,7 @@ ul.alert-dropdown {
 .inline{
     display: inline;
 }
+.redStar{
+    color: red;
+    font-size: 10px;
+}
