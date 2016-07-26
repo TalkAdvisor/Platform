@@ -42,11 +42,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-users fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>New Comments!</div>
+                                    <div class="huge">{{$speakers = DB::table('speakers')->count()}}</div>
+                                    <div>New Speakers!</div>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +64,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
+                                    <i class="fa fa-wpforms fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
+                                    <div class="huge">{{$reviews = DB::table('reviews')->count()}}</div>
+                                    <div>New Reviews!</div>
                                 </div>
                             </div>
                         </div>
@@ -86,11 +86,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
+                                    <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div class="huge">{{$reviews = DB::table('reviews')->where('comment', '!=', '')->count()}}</div>
+                                    <div>New Comments!</div>
                                 </div>
                             </div>
                         </div>
@@ -108,11 +108,11 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
+                                    <i class="fa fa-quote-left fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
+                                    <div class="huge">{{$reviews = DB::table('reviews')->where('quote', '!=', '')->count()}}</div>
+                                    <div>New Quotes!</div>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +126,24 @@
                     </div>
                 </div>
             </div>
+            <!-- /.row -->
+<div id="header">
+        <h2>Categories</h2>
+    </div>
+
+    <div id="content">
+
+        <div class="demo-container">
+            <div id="placeholder" class="demo-placeholder"></div>
+        </div>
+
+        <p>With the categories plugin you can plot categories/textual data easily.</p>
+
+    </div>
+
+    <div id="footer">
+        Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
+    </div>
             <!-- /.row -->
 
             <div class="row">
@@ -141,6 +159,8 @@
                 </div>
             </div>
             <!-- /.row -->
+
+           
 
             <div class="row">
                 <div class="col-lg-4">
