@@ -98,12 +98,12 @@
                         <h4 class="modal-title" id="gridSystemModalLabel">Create Speaker</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="speakerForm" action='{{url('speaker')}}' method="POST" class="form-horizontal" enctype="multipart/form-data">
+                        <form id="speakerForm" action='{{url('admin/speaker')}}' method="POST" class="form-horizontal" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12">
                                     {{ csrf_field() }}
                                     <div class="form-group col-md-12">
-                                        <h3><label for="speaker-name">講師的姓名</label></h3>
+                                        <h3><label for="speaker-name">講師的姓名</label><font class="redStar"> *</font></h3>
                                         <!-- <p>中文姓名，例如：黃韋力</p> -->
                                         <p>中文講師：用中文名字，例如：黃韋力</p>
                                         <p>英文講師：用英文名字，例如：Willie Huang</p>
@@ -119,7 +119,7 @@
                                             <p class="alert alert-danger">{{ $errors->first('speaker-en-name') }}</p> @endif
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <h3><label for="speaker-company">講師的公司</label></h3>
+                                        <h3><label for="speaker-company">講師的公司</label><font class="redStar"> *</font></h3>
                                         <p></p>
                                         <input type="text" name="speaker-company" id="speaker-company" class="form-control" value="{{old('speaker-company')}}"> @if ($errors->has('speaker-company'))
                                             <br>
@@ -206,12 +206,12 @@
     @endif
     <script>
     $(document).ready(function(){
-        var url = "/speaker";
+        var url = "/admin/speaker";
         //display modal form for creating new speaker
         $('#btn-add').click(function(){
             $('.alert').remove();
             $('#speakerForm').trigger("reset");
-            $('#speakerForm').attr('action','{{url('speaker')}}');
+            $('#speakerForm').attr('action','{{url('admin/speaker')}}');
             $('#speakerForm').attr('method','POST');
             $('#gridSystemModalLabel').text('Create Speaker');
             $('#gridSystemModal').modal('show');

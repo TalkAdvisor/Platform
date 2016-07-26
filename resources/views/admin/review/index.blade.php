@@ -61,10 +61,15 @@
                             @foreach ($reviews as $review)
                                 <tr>
                                     <td>{{$review->id}}</td>
-                                    <td>{{$review->user->name}}</td>
+                                    <?php
+                                        if($review->user_id == 0){
+                                            echo "<td></td>";
+                                        } else {
+                                            echo "<td>".$review->user->name."</td>";
+                                        }
+                                    ?>
                                     <td>{{$review->speaker->speaker_name}}</td>
                                     <td><div class="overflow">{{$review->comment}}</div></td>
-                                    <!-- <td>{{$review->talk_id}}</td> -->
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
@@ -98,15 +103,19 @@
                             <?php
                             foreach ($reviewsAll as $review){
 
-                                if(strcmp($review->user->id,Auth::user()->id)==0){
-                            
+                                if(strcmp($review->user_id,Auth::user()->id)==0){
                             ?>
                                 <tr>
                                     <td>{{$review->id}}</td>
-                                    <td>{{$review->user->name}}</td>
+                                    <?php
+                                        if($review->user_id == 0){
+                                            echo "<td></td>";
+                                        } else {
+                                            echo "<td>".$review->user->name."</td>";
+                                        }
+                                    ?>
                                     <td>{{$review->speaker->speaker_name}}</td>
                                     <td><div class="overflow">{{$review->comment}}</div></td>
-                                    <!-- <td>{{$review->talk_id}}</td> -->
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
@@ -141,38 +150,35 @@
                         <h4 class="modal-title" id="gridSystemModalLabel">Create Review</h4>
                     </div>
                     <div class="modal-body">
-                        <form action='{{url('review')}}' id="reviewForm" method="POST" class="form-horizontal">
+                        <form action='{{url('admin/review')}}' id="reviewForm" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
-                            <!-- <div class="form-group  col-md-12">
-                                <h3><label>演講的主題</label></h3>
-                                <select class="form-control" name="talk_id">
-                                    @foreach ($talks as $talk)
-                                        <option value="{{ $talk->id }}"
-                                                @if (old('talk_id') == $talk->id) selected="selected" @endif>{{ $talk->topic }}</option>
-                                    @endforeach
-                                </select>
-                            </div> -->
                             <div id="speakerSection" class=" form-group col-md-12">
-                                <h3><label>演講的講者</label></h3>
+                                <h3><label>演講的講者</label><font class="redStar"> *</font></h3>
+                                <p>請輸入已有的講者，若該講者不存在，請先新增。</p>
                                 <div id="firstSpeaker"> 
                                     <input type="text" name="speaker-name" id="speaker-name" autocomplete="off" spellcheck="false" class="form-control typeahead tt-query"
-                                           value="{{old('speaker-name')}}">     
-                                           <!-- <button name="showSecondField" type="button" class="btn btn-default"><i class="fa fa-btn fa-plus"></i></button> -->
+                                           value="{{old('speaker-name')}}">
                                     <input type="hidden" name="speaker_id" id="speaker_id" value="">
                                          
                                 </div>       
-                                <!-- <div id="secondSpeaker" style="display:none;">       
-                                    <input type="text" name="speaker-name[]"  autocomplete="off" spellcheck="false" class="form-control typeahead tt-query"
-                                           value="{{old('speaker-name[1]')}}">
-                                           <button name="hideSecondField" type="button" class="btn btn-default"><i class="fa fa-btn fa-minus"></i></button>
-                                    <input type="hidden" name="speaker-id[]" value="">         
-                                </div>  --> 
-                                @if ($errors->has('speaker-name'))<br><p
-                                    class="alert alert-danger">{{ $errors->first('speaker-name') }}</p>
-                                @endif             
+                                @if ($errors->has('speaker-name'))<br>
+                                <p class="alert alert-danger">{{ $errors->first('speaker-name') }}</p>
+                                @endif
+                                <?php 
+                                    $checkName = "";
+                                    foreach ($speakers as $speaker){
+                                        if (old('speaker-name') == $speaker->speaker_name) {
+                                            $checkName = "$speaker->speaker_name";
+                                        }
+                                    }
+                                ?>
+                                @if (old('speaker-name') != $checkName)<br>
+                                    <p class="alert alert-danger">請先新增講師的資料</p>
+                                @endif
+
                             </div>
                             <div class="form-group  col-md-12 sg-replace-icons sg-question sg-type-radio sg-type-radio-likert">
-                                <h3><label for="questionnaire-score">演講的評分</label></h3>
+                                <h3><label for="questionnaire-score">演講的評分</label><font class="redStar"> *</font></h3>
                                 <p></p>
                                 <div class="table-responsive sg-rating-scale">
                                     <table class="table table-striped">
@@ -297,12 +303,12 @@
 
 
     $(document).ready(function(){
-        var url = "/review";
+        var url = "review";
         //display modal form for creating new speaker
         $('#btn-add').click(function(){
             $('.alert').remove();
             $('#reviewForm').trigger("reset");
-            $('#reviewForm').attr('action','{{url('review')}}');
+            $('#reviewForm').attr('action','{{url('admin/review')}}');
             $('#reviewForm').attr('method','POST');
             $('#gridSystemModalLabel').text('Create Review');
             $('#gridSystemModal').modal('show');
@@ -370,11 +376,8 @@
                 });
                 
             } else {
-                // alert('不能修改別人的項目，請選擇你上傳的項目');
-                
                 var message = '<p class="alert alert-danger">不能修改別人的評論，請選擇你上傳的評論</p>';
                 $('#message').empty().append(message);
-                
             }
         });
     });
@@ -477,6 +480,5 @@
             white-space: nowrap;
             width: 400px;
         }
-
     </style>
 @endsection

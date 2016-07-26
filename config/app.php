@@ -159,6 +159,8 @@ return [
         /*laravelcollective*/
         Collective\Html\HtmlServiceProvider::class,
 
+        Bican\Roles\RolesServiceProvider::class,
+
 
     ],
 
