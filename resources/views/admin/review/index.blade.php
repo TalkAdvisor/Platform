@@ -61,10 +61,15 @@
                             @foreach ($reviews as $review)
                                 <tr>
                                     <td>{{$review->id}}</td>
-                                    <td>{{$review->user->name}}</td>
+                                    <?php
+                                        if($review->user_id == 0){
+                                            echo "<td></td>";
+                                        } else {
+                                            echo "<td>".$review->user->name."</td>";
+                                        }
+                                    ?>
                                     <td>{{$review->speaker->speaker_name}}</td>
                                     <td><div class="overflow">{{$review->comment}}</div></td>
-                                    <!-- <td>{{$review->talk_id}}</td> -->
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
@@ -98,15 +103,19 @@
                             <?php
                             foreach ($reviewsAll as $review){
 
-                                if(strcmp($review->user->id,Auth::user()->id)==0){
-                            
+                                if(strcmp($review->user_id,Auth::user()->id)==0){
                             ?>
                                 <tr>
                                     <td>{{$review->id}}</td>
-                                    <td>{{$review->user->name}}</td>
+                                    <?php
+                                        if($review->user_id == 0){
+                                            echo "<td></td>";
+                                        } else {
+                                            echo "<td>".$review->user->name."</td>";
+                                        }
+                                    ?>
                                     <td>{{$review->speaker->speaker_name}}</td>
                                     <td><div class="overflow">{{$review->comment}}</div></td>
-                                    <!-- <td>{{$review->talk_id}}</td> -->
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
@@ -143,31 +152,15 @@
                     <div class="modal-body">
                         <form action='{{url('admin/review')}}' id="reviewForm" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
-                            <!-- <div class="form-group  col-md-12">
-                                <h3><label>演講的主題</label></h3>
-                                <select class="form-control" name="talk_id">
-                                    @foreach ($talks as $talk)
-                                        <option value="{{ $talk->id }}"
-                                                @if (old('talk_id') == $talk->id) selected="selected" @endif>{{ $talk->topic }}</option>
-                                    @endforeach
-                                </select>
-                            </div> -->
                             <div id="speakerSection" class=" form-group col-md-12">
                                 <h3><label>演講的講者</label><font class="redStar"> *</font></h3>
                                 <p>請輸入已有的講者，若該講者不存在，請先新增。</p>
                                 <div id="firstSpeaker"> 
                                     <input type="text" name="speaker-name" id="speaker-name" autocomplete="off" spellcheck="false" class="form-control typeahead tt-query"
-                                           value="{{old('speaker-name')}}">     
-                                           <!-- <button name="showSecondField" type="button" class="btn btn-default"><i class="fa fa-btn fa-plus"></i></button> -->
+                                           value="{{old('speaker-name')}}">
                                     <input type="hidden" name="speaker_id" id="speaker_id" value="">
                                          
                                 </div>       
-                                <!-- <div id="secondSpeaker" style="display:none;">       
-                                    <input type="text" name="speaker-name[]"  autocomplete="off" spellcheck="false" class="form-control typeahead tt-query"
-                                           value="{{old('speaker-name[1]')}}">
-                                           <button name="hideSecondField" type="button" class="btn btn-default"><i class="fa fa-btn fa-minus"></i></button>
-                                    <input type="hidden" name="speaker-id[]" value="">         
-                                </div>  --> 
                                 @if ($errors->has('speaker-name'))<br>
                                 <p class="alert alert-danger">{{ $errors->first('speaker-name') }}</p>
                                 @endif
