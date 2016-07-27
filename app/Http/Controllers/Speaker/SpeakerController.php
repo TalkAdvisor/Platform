@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Speaker;
 
 use View;
 use Session;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Model\Speaker;
 use App\Http\Controllers\Controller;
@@ -113,4 +113,11 @@ class SpeakerController extends Controller
            	);   // insert query
         }
     }
-}
+   
+  }
+  public function newSpeaker(){
+      $now = Carbon::now();
+      $pre_month = ($now->month)-1;
+      $pre->setDate($now->year,$pre_month, $now->day)->setTime($now->hour, $now->minute, $now->second)->toDateTimeString();
+
+  }

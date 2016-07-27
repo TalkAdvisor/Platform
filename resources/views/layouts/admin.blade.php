@@ -20,6 +20,9 @@
     <!-- Morris Charts CSS -->
     <link href={!! json_encode(url('/css/plugins/morris.css')) !!} rel="stylesheet">
 
+    <!-- Flot Charts CSS -->
+    <link href={!! json_encode(url('/css/plugins/examples.css')) !!} rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css"
@@ -36,7 +39,38 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
     <!--<script type="text/javascript" src="http://www.tutorialrepublic.com/examples/js/typeahead.min.js"></script>-->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
     <script type="text/javascript" src="{{url('js/typeahead.bundle.min.js')}}"></script>
+    <script type="text/javascript" src="{{url('js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{url('js/plugins/flot/jquery.flot.js')}}"></script>
+    <script type="text/javascript" src="{{url('js/plugins/flot/jquery.flot.categories.min.js')}}"></script>
+    
+    <script type="text/javascript">
+        $(function() {
+
+        var data = [ ["January", 10], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
+
+        $.plot("#placeholder", [ data ], {
+            series: {
+                bars: {
+                    show: true,
+                    barWidth: 0.6,
+                    align: "center"
+                }
+            },
+            xaxis: {
+                mode: "categories",
+                tickLength: 0
+            }
+        });
+
+        // Add the Flot version string to the footer
+
+        $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+    });
+    </script>
 </head>
 
 <body>
