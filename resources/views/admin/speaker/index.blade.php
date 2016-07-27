@@ -198,7 +198,7 @@
     @endif
     <script>
     $(document).ready(function(){
-        var url = "/speaker";
+        var url = "/admin/speaker";
         //display modal form for creating new speaker
         $('#btn-add').click(function(){
             $('.alert').remove();

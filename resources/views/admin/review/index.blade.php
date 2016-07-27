@@ -333,10 +333,8 @@
                     var upId = "{{$review->user_id}}";
                 }
                 
-            @endforeach
-            console.log(rid);
-            console.log(upId);
-           
+            @endforeach 
+
             if("{{Auth::user()->id}}" == upId){
                 $('#reviewForm').trigger("reset");
                 $('.alert').remove();
