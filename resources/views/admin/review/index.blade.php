@@ -15,7 +15,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-dashboard"></i> <a href={{url('admin/dashboard')}}>Dashboard</a>
+                            <i class="fa fa-dashboard"></i> <a href={{url('dashboard')}}>Dashboard</a>
                         </li>
                         <li class="active">
                             <i class="fa fa-male"></i> Review
@@ -161,7 +161,7 @@
                         <h4 class="modal-title" id="gridSystemModalLabel">Create Review</h4>
                     </div>
                     <div class="modal-body">
-                        <form action='{{url('admin/review')}}' id="reviewForm" method="POST" class="form-horizontal">
+                        <form action='{{url('review')}}' id="reviewForm" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
                             <div id="speakerSection" class=" form-group col-md-12">
                                 <h3><label>演講的講者</label><font class="redStar"> *</font></h3>
@@ -319,7 +319,7 @@
         $('#btn-add').click(function(){
             $('.alert').remove();
             $('#reviewForm').trigger("reset");
-            $('#reviewForm').attr('action','{{url('admin/review')}}');
+            $('#reviewForm').attr('action','{{url('review')}}');
             $('#reviewForm').attr('method','POST');
             $('#gridSystemModalLabel').text('Create Review');
             $('#gridSystemModal').modal('show');

@@ -12,7 +12,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li>
-                            <i class="fa fa-dashboard"></i> <a href={{url( 'admin/dashboard')}}>Dashboard</a>
+                            <i class="fa fa-dashboard"></i> <a href={{url('dashboard')}}>Dashboard</a>
                         </li>
                         <li class="active">
                             <i class="fa fa-male"></i> Speaker
@@ -90,7 +90,7 @@
                         <h4 class="modal-title" id="gridSystemModalLabel">Create Speaker</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="speakerForm" action='{{url('admin/speaker')}}' method="POST" class="form-horizontal" enctype="multipart/form-data">
+                        <form id="speakerForm" action='{{url('speaker')}}' method="POST" class="form-horizontal" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12">
                                     {{ csrf_field() }}
@@ -198,12 +198,12 @@
     @endif
     <script>
     $(document).ready(function(){
-        var url = "/admin/speaker";
+        var url = "/speaker";
         //display modal form for creating new speaker
         $('#btn-add').click(function(){
             $('.alert').remove();
             $('#speakerForm').trigger("reset");
-            $('#speakerForm').attr('action','{{url('admin/speaker')}}');
+            $('#speakerForm').attr('action','{{url('speaker')}}');
             $('#speakerForm').attr('method','POST');
             $('#gridSystemModalLabel').text('Create Speaker');
             $('#gridSystemModal').modal('show');
