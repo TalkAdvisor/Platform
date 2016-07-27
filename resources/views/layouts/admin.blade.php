@@ -52,7 +52,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href={{url('admin/dashboard')}}>TalkAdvisor Admin</a>
+            <a class="navbar-brand" href={{url('/dashboard')}}>TalkAdvisor Admin</a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
@@ -83,10 +83,10 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li data-toggle="dashboard" @if(Session::get('tab')=='dashboard') class="active" @endif>
-                    <a href={{url('/admin/dashboard')}}><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href={{url('/dashboard')}}><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li data-toggle="speaker" @if(Session::get('tab')=='speaker') class="active" @endif>
-                    <a href="{{url('/admin/speaker')}}"><i class="fa fa-fw fa-male" data-toggle="speaker"></i> Speakers</a>
+                    <a href="{{url('/speaker')}}"><i class="fa fa-fw fa-male" data-toggle="speaker"></i> Speakers</a>
                 </li>
                 <!-- <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-comments-o"></i> Talks </a>
@@ -106,7 +106,7 @@
                     </ul>
                 </li> -->
                 <li data-toggle="review" @if(Session::get('tab')=='review') class="active" @endif>
-                    <a href="{{url('/admin/review')}}"><i class="fa fa-fw fa-wpforms"></i> Reviews</a>
+                    <a href="{{url('/review')}}"><i class="fa fa-fw fa-wpforms"></i> Reviews</a>
                 </li>
                 <!--<li>
                     <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>

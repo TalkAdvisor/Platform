@@ -43,10 +43,6 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>English Name</th>
-<<<<<<< HEAD
-                                <!-- <th>Language</th> -->
-=======
->>>>>>> origin/dev
                                 <th>Company</th>
                                 <th>Title</th>
                                 <th>Email</th>
@@ -59,10 +55,6 @@
                                     <td>{{$speaker->id}}</td>
                                     <td>{{$speaker->speaker_name}}</td>
                                     <td>{{$speaker->speaker_englishname}}</td>
-<<<<<<< HEAD
-                                    <!-- <td>{{$speaker->speaker_language}}</td> -->
-=======
->>>>>>> origin/dev
                                     <td>{{$speaker->speaker_company}}</td>
                                     <td>{{$speaker->speaker_title}}</td>
                                     <td>{{$speaker->speaker_email}}</td>

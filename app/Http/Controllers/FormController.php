@@ -38,7 +38,7 @@ class FormController extends Controller
             Session::flash('alert-class', 'alert-danger'); 
         }
 
-        return  Redirect::to('/admin/speaker');
+        return  Redirect::to('/speaker');
     }
 
     public function updateSpeaker(SpeakerFormRequest $request, $id)
@@ -55,7 +55,7 @@ class FormController extends Controller
             Session::flash('alert-class', 'alert-danger'); 
         }
 
-        return  Redirect::to('/admin/speaker');
+        return  Redirect::to('/speaker');
     }
 
     public function deleteSpeaker($id)
@@ -72,7 +72,7 @@ class FormController extends Controller
             Session::flash('alert-class', 'alert-danger'); 
         }
 
-        return  Redirect::to('/admin/speaker');
+        return  Redirect::to('/speaker');
     }
 
     public function createTalk(TalkFormRequest $request)
@@ -88,7 +88,7 @@ class FormController extends Controller
             Session::flash('alert-class', 'alert-danger'); 
         }
 
-        return  Redirect::to('/admin/talk');
+        return  Redirect::to('/talk');
     }
 
     public function createReview(ReviewFormRequest $request)
@@ -121,9 +121,9 @@ class FormController extends Controller
 
         switch($formType) {
             case 'single':
-                return  Redirect::to('/admin/review');
+                return  Redirect::to('/review');
             case 'flow':
-                return  Redirect::to('/admin/form/review?speakerId='.$talkId);
+                return  Redirect::to('/form/review?speakerId='.$talkId);
             case 'frontend':
                 return  Redirect::to('/speaker/'.$speakerId);
         }
@@ -162,9 +162,9 @@ class FormController extends Controller
 
         switch($formType) {
             case 'single':
-                return  Redirect::to('/admin/review');
+                return  Redirect::to('/review');
             case 'flow':
-                return  Redirect::to('/admin/form/review?speakerId='.$talkId);
+                return  Redirect::to('/form/review?speakerId='.$talkId);
             case 'frontend':
                 return  Redirect::to('/speaker/'.$speakerId);
         }
@@ -186,7 +186,7 @@ class FormController extends Controller
             Session::flash('alert-class', 'alert-danger'); 
         }
 
-        return  Redirect::to('/admin/review');
+        return  Redirect::to('/review');
     }
 
 

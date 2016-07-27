@@ -62,13 +62,19 @@
                                 <tr>
                                     <td>{{$review->id}}</td>
                                     <?php
-                                        if($review->user_id == 0){
-                                            echo "<td></td>";
+                                        if($review->user_id == 0 || $review->user_id == NULL){
+                                            echo "<td>空值</td>";
                                         } else {
                                             echo "<td>".$review->user->name."</td>";
                                         }
+
+                                        if($review->speaker_id == 0) {
+                                            echo "<td>空值</td>";
+                                        } else {
+                                            echo "<td>".$review->speaker->speaker_name."</td>";
+                                        }
                                     ?>
-                                    <td>{{$review->speaker->speaker_name}}</td>
+                                    
                                     <td><div class="overflow">{{$review->comment}}</div></td>
                                     <td>
                                         <div>
@@ -108,13 +114,18 @@
                                 <tr>
                                     <td>{{$review->id}}</td>
                                     <?php
-                                        if($review->user_id == 0){
-                                            echo "<td></td>";
+                                        if($review->user_id == 0 || $review->user_id == NULL){
+                                            echo "<td>空值</td>";
                                         } else {
                                             echo "<td>".$review->user->name."</td>";
                                         }
+
+                                        if($review->speaker_id == 0) {
+                                            echo "<td>空值</td>";
+                                        } else {
+                                            echo "<td>".$review->speaker->speaker_name."</td>";
+                                        }
                                     ?>
-                                    <td>{{$review->speaker->speaker_name}}</td>
                                     <td><div class="overflow">{{$review->comment}}</div></td>
                                     <td>
                                         <div>
