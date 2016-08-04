@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Review;
 
-
+use DB;
 use View;
 use Session;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Model\Review;
 use App\Model\ReviewOption;
@@ -52,6 +52,68 @@ class ReviewController extends Controller
               'message' => $e->getMessage()
             );   // insert query
         }
+    }
+    public function AllReviews(){
+      $reviews = DB::table('reviews')->count('id');
+      echo $reviews;
+    }
+    public function AllComment(){
+      $reviews = DB::table('reviews')->whereNull('comment')->count();
+      echo $reviews;
+    }
+    public function AllQuotes(){
+      $quotes = DB::table('reviews')->whereNull('quote')->count();
+      echo $quotes;
+    }
+    public function newReview(){
+        $now = Carbon::now();
+        //$pre_month = ($now->month)-1;
+        $pre = Carbon::now();
+        $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $newReview=Review::select('id')->whereBetween('created_at', [$pre, $now])->count();
+        echo $newReview;
+    }
+    public function newComment(){
+        $now = Carbon::now();
+        //$pre_month = ($now->month)-1;
+        $pre = Carbon::now();
+        $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $newComment=Review::select('comment')->where('comment', '!=', '')->whereBetween('created_at', [$pre, $now])->count();
+        echo $newComment;
+    }
+    public function newQuote(){
+        $now = Carbon::now();
+        //$pre_month = ($now->month)-1;
+        $pre = Carbon::now();
+        $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $newQuote=Review::select('quote')->where('quote', '!=', '')->whereBetween('created_at', [$pre, $now])->count();
+        echo $newQuote;
+    }
+    public function maxReviewer(){
+        //$reviewers = array(DB::select('select  user_id from reviews group by user_id order by count(user_id) desc LIMIT 3;'));
+        $reviewers = DB::table('reviews')
+                       ->select(DB::raw('count(*) as user_count, user_id'))
+                       ->groupBy('user_id')
+                       ->orderBy('user_count','desc')
+                       ->take(3)
+                       ->get();
+        echo $reviewers[0]->user_id." ".$reviewers[1]->user_id." ".$reviewers[2]->user_id;
+
+    }
+    public function monthMaxReviewer(){
+        $now = Carbon::now();
+        //$pre_month = ($now->month)-1;
+        $pre = Carbon::now();
+        $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $monthreviewers = DB::table('reviews')
+                       ->select(DB::raw('count(*) as user_count, user_id'))
+                       ->whereBetween('created_at',[$pre,$now])
+                       ->groupBy('user_id')
+                       ->orderBy('user_count','desc')
+                       ->take(3)
+                       ->get();
+        echo $monthreviewers[0]->user_id." ".$monthreviewers[1]->user_id." ".$monthreviewers[2]->user_id;
+
     }
 
 }

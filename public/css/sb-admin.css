@@ -318,3 +318,11 @@ ul.alert-dropdown {
     color: red;
     font-size: 10px;
 }
+/*.panel-primary>.panel-heading {
+    color: #fff;
+    background-color: rgba(92, 165, 208, 0.86);
+    border-color: rgba(92, 165, 208, 0.86);
+}
+.panel-primary {
+    border-color: rgba(92, 165, 208, 0.86);
+}*/

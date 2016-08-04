@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Speaker;
 
-
+use DB;
 use View;
 use Session;
 use Carbon\Carbon;
@@ -113,11 +113,16 @@ class SpeakerController extends Controller
            	);   // insert query
         }
     }
-   
-  }
-  public function newSpeaker(){
+    public function AllSpeakers(){
+      $speakers = DB::table('speakers')->count('id');
+      echo $speakers;
+    }
+    public function newSpeaker(){
       $now = Carbon::now();
-      $pre_month = ($now->month)-1;
-      $pre->setDate($now->year,$pre_month, $now->day)->setTime($now->hour, $now->minute, $now->second)->toDateTimeString();
-
+      //$pre_month = ($now->month)-1;
+      $pre = Carbon::now();
+      $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
+      $newSpeaker=Speaker::select('id')->whereBetween('created_at', [$pre, $now])->count();
+      echo $newSpeaker;
+   }
   }

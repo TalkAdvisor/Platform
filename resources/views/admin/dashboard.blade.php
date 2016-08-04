@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
-
+<script type="text/javascript" src="{{url('js/plugins/flot/jquery.flot.js')}}"></script>
+<script type="text/javascript" src="{{url('js/plugins/flot/jquery.flot.categories.min.js')}}"></script>
 
 
     <div id="page-wrapper">
@@ -17,21 +18,9 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li class="active">
-                            <i class="fa fa-dashboard"></i> Dashboard
+                            <i class="fa fa-dashboard"></i> ALL TIMES
                         </li>
                     </ol>
-                </div>
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="alert alert-info alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <i class="fa fa-info-circle"></i> <strong>Like SB Admin?</strong> Try out <a
-                                href="http://startbootstrap.com/template-overviews/sb-admin-2" class="alert-link">SB
-                            Admin 2</a> for additional features!
-                    </div>
                 </div>
             </div>
             <!-- /.row -->
@@ -42,7 +31,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-users fa-5x"></i>
+                                    <i class="fa fa-users fa-4x"></i>
 
                                 </div>
                                 <div class="col-xs-9 text-right">
@@ -65,7 +54,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-wpforms fa-5x"></i>
+                                    <i class="fa fa-wpforms fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{$reviews = DB::table('reviews')->count()}}</div>
@@ -87,7 +76,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-comments fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{$reviews = DB::table('reviews')->where('comment', '!=', '')->count()}}</div>
@@ -109,7 +98,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-quote-left fa-5x"></i>
+                                    <i class="fa fa-quote-left fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">{{$reviews = DB::table('reviews')->where('quote', '!=', '')->count()}}</div>
@@ -135,10 +124,17 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-users fa-5x"></i>
+                                    <i class="fa fa-users fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$speakers = DB::table('speakers')->count()}}</div>
+                                    <div class="huge">
+                                        <?php
+                                        use App\Http\Controllers\Speaker\SpeakerController;
+                                         $speakerController = new SpeakerController;
+                                         $newSpeaker = $speakerController->newSpeaker();
+                                         echo $newSpeaker;
+                                        ?>
+                                    </div>
                                     <div>New Speakers!</div>
                                 </div>
                             </div>
@@ -157,10 +153,17 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-wpforms fa-5x"></i>
+                                    <i class="fa fa-wpforms fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$reviews = DB::table('reviews')->count()}}</div>
+                                    <div class="huge">
+                                        <?php
+                                        use App\Http\Controllers\Review\ReviewController;
+                                         $reviewController = new ReviewController;
+                                         $newReview = $reviewController->newReview();
+                                         echo $newReview;
+                                        ?>
+                                    </div>
                                     <div>New Reviews!</div>
                                 </div>
                             </div>
@@ -179,10 +182,12 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-comments fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$reviews = DB::table('reviews')->where('comment', '!=', '')->count()}}</div>
+                                    <div class="huge">
+                                        {{$reviewController->newComment()}}
+                                    </div>
                                     <div>New Comments!</div>
                                 </div>
                             </div>
@@ -201,10 +206,12 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-quote-left fa-5x"></i>
+                                    <i class="fa fa-quote-left fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$reviews = DB::table('reviews')->where('quote', '!=', '')->count()}}</div>
+                                    <div class="huge">
+                                        {{$reviewController->newQuote()}}
+                                    </div>
                                     <div>New Quotes!</div>
                                 </div>
                             </div>
@@ -219,24 +226,8 @@
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-<div id="header">
-        <h2>Categories</h2>
-    </div>
-
-    <div id="content">
-
-        <div class="demo-container">
-            <div id="placeholder" class="demo-placeholder"></div>
-        </div>
-
-        <p>With the categories plugin you can plot categories/textual data easily.</p>
-
-    </div>
-
-    <div id="footer">
-        Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
-    </div>
+            {{$reviewController->maxReviewer()}}
+            {{$reviewController->monthMaxReviewer()}}
             <!-- /.row -->
 
             <div class="row">
@@ -394,9 +385,11 @@
 
     </div>
     <!-- /#page-wrapper -->
-    
-    <!-- Morris Charts JavaScript -->
-    
+
+    <!-- Custom Theme JavaScript -->
+    <script src={!! json_encode(url('/js/jquery.min.js')) !!}></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src={!! json_encode(url('/js/metisMenu.min.js')) !!}></script>
     <script src={!! json_encode(url('/js/plugins/morris/raphael.min.js')) !!}></script>
     <script src={!! json_encode(url('/js/plugins/morris/morris.min.js')) !!}></script>
     <script src={!! json_encode(url('/js/plugins/morris/morris-data.js')) !!}></script>
