@@ -9,13 +9,13 @@ class Review extends Model
     //
     public function review_options()
     {
-        return $this->belongsToMany('App\Model\ReviewOption')->withPivot('score_id')->withTimestamps();
+        return $this->belongsToMany('App\Model\Ratingoptions','review_ratingoption','review_id','ratingoption_id')->withPivot('score')->withTimestamps();
     }
 
     public function talk()
     {
         return $this->belongsTo('App\Model\Talk');
-    }
+    } 
 
     public function speaker()
     {

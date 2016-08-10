@@ -362,7 +362,7 @@
                             if({{$reviewsOption->id}} == review_id){
                                 @foreach ($reviewsOption->review_options as $reviews_Option)
                                     // console.log({{$reviews_Option->pivot->score_id}});
-                                    score[i] = "{{$reviews_Option->pivot->score_id}}";
+                                    score[i] = "{{$reviews_Option->pivot->score}}";
                                     i++;
                                 @endforeach
                             }

@@ -17,7 +17,7 @@ use App\Model\Organizer;
 use App\Model\Location;
 use App\Model\Review;
 use App\User;
-use App\Model\ReviewOption;
+use App\Model\Ratingoptions;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionnaireFormRequest;
 use App\Http\Requests\SpeakerFormRequest;
@@ -122,5 +122,8 @@ class PageController extends Controller
         $talks = $speaker->talks;
         return View::make('speakers.createReview')->with('speaker',$speaker)->with('talks',$talks)->with('score', Util::getScores());;
     }
+    // public function getUserPage(){
+    //     return View::make('admin.profile')->with('users',User::all());
+    // }
 
 }
