@@ -7,6 +7,7 @@ use View;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Model\Speaker;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SpeakerFormRequest;
@@ -36,12 +37,25 @@ class SpeakerController extends Controller
 	        $speaker->speaker_description = $request->input('speaker-description');
           $speaker->source = $request->input('speaker-source');
 	        $speaker->speaker_email = $request->input('speaker-email');
-	        $file = $request->file('image');
+	        $image = $request->input('hidden-speaker-img-name');
+          $file = $request->input('hidden-speaker-img');
 	        if($file != null){
-	            $image_name = time()."-".$file->getClientOriginalName();
-	            $file->move('uploads/speakers/', $image_name);
+	            $image_name = time()."-".$image;
 	            $speaker->speaker_photo = $image_name;
-	            $speaker->local_path = 'uploads/speakers/'.$image_name;
+	            $speaker->local_path = env('your-url') . $image_name;
+              header('Content-Type: image/png');
+              $data = $file;
+              // define('UPLOAD_DIR', 'uploads/speakers/');
+              $img = $data;
+              $img = str_replace('data:image/png;base64,', '', $img);
+              $img = str_replace(' ', '+', $img);
+              $data = base64_decode($img);
+              // $file = UPLOAD_DIR . $image_name;
+              // $success = file_put_contents($file, $data);
+              $filePath = 'speakers/' . $image_name;
+              $s3 = Storage::disk('s3');
+              $s3->put($filePath, $data, 'public');
+              // print $success ? $file : 'Unable to save the file.';
 	        }
 	        $speaker->save();
 	        return array(
@@ -70,13 +84,28 @@ class SpeakerController extends Controller
 	        $speaker->speaker_description = $request->input('speaker-description');
           $speaker->source = $request->input('speaker-source');
 	        $speaker->speaker_email = $request->input('speaker-email');
-	        $file = $request->file('image');
-	        if($file != null){
-	            $image_name = time()."-".$file->getClientOriginalName();
-	            $file->move('uploads/speakers/', $image_name);
-	            $speaker->speaker_photo = $image_name;
-	            $speaker->local_path = 'uploads/speakers/'.$image_name;
-	        }
+	        $image = $request->input('hidden-speaker-img-name');
+          $file = $request->input('hidden-speaker-img');
+          $deleteName = $request->input('hidden-img-name');
+          if($file != null){
+              $image_name = time()."-".$image;
+              $speaker->speaker_photo = $image_name;
+              $speaker->local_path = env('your-url') . $image_name;
+              header('Content-Type: image/png');
+              $data = $file;
+              define('UPLOAD_DIR', 'uploads/speakers/');
+              $img = $data;
+              $img = str_replace('data:image/png;base64,', '', $img);
+              $img = str_replace(' ', '+', $img);
+              $data = base64_decode($img);
+              // $file = UPLOAD_DIR . $image_name;
+              // $success = file_put_contents($file, $data);
+              $filePath = 'speakers/' . $image_name;
+              $s3 = Storage::disk('s3');
+              $s3->delete('speakers/' . $deleteName);
+              $s3->put($filePath, $data, 'public');
+              // print $success ? $file : 'Unable to save the file.';
+          }
 	        $speaker->save();
 	        return array(
            		'status' => true,
@@ -113,6 +142,7 @@ class SpeakerController extends Controller
            	);   // insert query
         }
     }
+
     public function AllSpeakers(){
       $speakers = DB::table('speakers')->count('id');
       echo $speakers;
@@ -126,3 +156,5 @@ class SpeakerController extends Controller
       echo $newSpeaker;
    }
   }
+}
+

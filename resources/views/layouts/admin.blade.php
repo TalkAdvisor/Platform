@@ -43,11 +43,11 @@
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
     <script type="text/javascript" src="{{url('js/typeahead.bundle.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/jquery.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/plugins/flot/jquery.flot.js')}}"></script>
-    <script type="text/javascript" src="{{url('js/plugins/flot/jquery.flot.categories.min.js')}}"></script>
     
-    
+    <!-- cropImage -->
+    <script src={!! json_encode(url('/js/croppie.min.js')) !!}></script>
+    <!-- <script src={!! json_encode(url('/js/jquery.min.js')) !!}></script> -->
+    <link href={!! json_encode(url('/css/croppie.css')) !!} rel="stylesheet">
 </head>
 
 <body>
