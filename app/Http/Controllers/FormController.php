@@ -38,7 +38,7 @@ class FormController extends Controller
             Session::flash('alert-class', 'alert-danger'); 
         }
 
-        return  Redirect::to('/speaker');
+        return  Redirect::to('/admin/speaker');
     }
 
     public function updateSpeaker(SpeakerFormRequest $request, $id)
@@ -112,7 +112,7 @@ class FormController extends Controller
             //6 => $request->input('content-score')
         );
         for($i=1;$i<=count($score_array);$i++) {
-            $review->review_options()->attach($i,['score_id'=>$score_array[$i]]);
+            $review->review_options()->attach($i,['score'=>$score_array[$i]]);
         }
         $review->save();
         $formType = $request->input('form-type');
@@ -153,7 +153,7 @@ class FormController extends Controller
             //6 => $request->input('content-score')
         );
         for($i=1;$i<=count($score_array);$i++) {
-            $review->review_options()->attach($i,['score_id'=>$score_array[$i]]);
+            $review->review_options()->attach($i,['score'=>$score_array[$i]]);
         }
         $review->save();
         $formType = $request->input('form-type');
