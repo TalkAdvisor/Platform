@@ -38,7 +38,7 @@ class FormController extends Controller
             Session::flash('alert-class', 'alert-danger'); 
         }
 
-        return  Redirect::to('/admin/speaker');
+        return  Redirect::to('/admin/speaker1');
     }
 
     public function updateSpeaker(SpeakerFormRequest $request, $id)

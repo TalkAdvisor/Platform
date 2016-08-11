@@ -235,11 +235,11 @@
                             <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Most of Review this month</h3>
                         </div>
                         <div class="panel-body" style="width:541px;">
-                        <?php 
+                        <?php
+                            if ($monthMaxReviewer==0) {
+                                echo "This month has 0 review!";
+                            }else{
                             switch (count($monthMaxReviewer)){
-                                case 0:
-                                  echo "This month has 0 review!";
-                                  break;  
                                 case 1:?>
                         <center>
                                 <img style="width:100px;position:absolute;margin: 49px 100px 20px -48px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[0]->profile_picture}}">
@@ -280,6 +280,7 @@
                                 default:
                                     break;
                             }
+                        }
                         ?>
                         </div>
                     </div>            

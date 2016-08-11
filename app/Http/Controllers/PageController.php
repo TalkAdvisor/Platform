@@ -78,11 +78,16 @@ class PageController extends Controller
                     $max=User::find($Reviewer->user_id);
                     array_push($maxReviewerArray, $max);
                 }
+                
                 $monthMaxReviewer=ReviewController::monthMaxReviewer();
-                $monthMaxReviewerArray=array();
-                foreach ($monthMaxReviewer as $monthReviewer) {
-                    $month_reviewer=User::find($monthReviewer->user_id);
-                    array_push($monthMaxReviewerArray, $month_reviewer);
+                if($monthMaxReviewer!=0){
+                    $monthMaxReviewerArray=array();
+                    foreach ($monthMaxReviewer as $monthReviewer) {
+                        $month_reviewer=User::find($monthReviewer->user_id);
+                        array_push($monthMaxReviewerArray, $month_reviewer);
+                    }
+                }else{
+                    $monthMaxReviewerArray=0;
                 }
                 return View::make('admin.dashboard')->with("AllReviews",ReviewController::AllReviews())->with("AllComments",ReviewController::AllComments())->with("AllQuotes",ReviewController::AllQuotes())->with("newReview",ReviewController::newReview())->with("newComment",ReviewController::newComment())->with("newQuote",ReviewController::newQuote())->with("maxReviewer",$maxReviewerArray)->with("monthMaxReviewer",$monthMaxReviewerArray)->with("AllSpeakers",SpeakerController::AllSpeakers())->with("newSpeaker",SpeakerController::newSpeaker());
             default:
