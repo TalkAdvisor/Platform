@@ -53,43 +53,43 @@ class ReviewController extends Controller
             );   // insert query
         }
     }
-    public function AllReviews(){
+    public static function AllReviews(){
       $reviews = DB::table('reviews')->count('id');
-      echo $reviews;
+      return $reviews;
     }
-    public function AllComment(){
-      $reviews = DB::table('reviews')->whereNull('comment')->count();
-      echo $reviews;
+    public static function AllComments(){
+      $reviews = DB::table('reviews')->where('comment','!=',null)->where('comment','!=',' ')->count();
+      return $reviews;
     }
-    public function AllQuotes(){
-      $quotes = DB::table('reviews')->whereNull('quote')->count();
-      echo $quotes;
+    public static function AllQuotes(){
+      $quotes = DB::table('reviews')->where('quote','!=',null)->where('quote','!=',' ')->count();
+      return $quotes;
     }
-    public function newReview(){
+    public static function newReview(){
         $now = Carbon::now();
         //$pre_month = ($now->month)-1;
         $pre = Carbon::now();
         $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
         $newReview=Review::select('id')->whereBetween('created_at', [$pre, $now])->count();
-        echo $newReview;
+        return $newReview;
     }
-    public function newComment(){
+    public static function newComment(){
         $now = Carbon::now();
         //$pre_month = ($now->month)-1;
         $pre = Carbon::now();
         $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
         $newComment=Review::select('comment')->where('comment', '!=', '')->whereBetween('created_at', [$pre, $now])->count();
-        echo $newComment;
+        return $newComment;
     }
-    public function newQuote(){
+    public static function newQuote(){
         $now = Carbon::now();
         //$pre_month = ($now->month)-1;
         $pre = Carbon::now();
         $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
         $newQuote=Review::select('quote')->where('quote', '!=', '')->whereBetween('created_at', [$pre, $now])->count();
-        echo $newQuote;
+        return $newQuote;
     }
-    public function maxReviewer(){
+    public static function maxReviewer(){
         //$reviewers = array(DB::select('select  user_id from reviews group by user_id order by count(user_id) desc LIMIT 3;'));
         $reviewers = DB::table('reviews')
                        ->select(DB::raw('count(*) as user_count, user_id'))
@@ -97,22 +97,38 @@ class ReviewController extends Controller
                        ->orderBy('user_count','desc')
                        ->take(3)
                        ->get();
-        echo $reviewers[0]->user_id." ".$reviewers[1]->user_id." ".$reviewers[2]->user_id;
+        return $reviewers;
 
     }
-    public function monthMaxReviewer(){
+    public static function monthMaxReviewer(){
         $now = Carbon::now();
         //$pre_month = ($now->month)-1;
         $pre = Carbon::now();
         $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
-        $monthreviewers = DB::table('reviews')
+        //set $pre is the first of month
+        $numbereviewers = DB::table('reviews')
                        ->select(DB::raw('count(*) as user_count, user_id'))
                        ->whereBetween('created_at',[$pre,$now])
                        ->groupBy('user_id')
-                       ->orderBy('user_count','desc')
-                       ->take(3)
-                       ->get();
-        echo $monthreviewers[0]->user_id." ".$monthreviewers[1]->user_id." ".$monthreviewers[2]->user_id;
+                       ->count();
+                       if($numbereviewers!=0&&$numbereviewers<=3){
+                        //check has three reviewer create review
+                        $monthreviewers = DB::table('reviews')
+                           ->select(DB::raw('count(*) as user_count, user_id'))
+                           ->whereBetween('created_at',[$pre,$now])
+                           ->groupBy('user_id')
+                           ->orderBy('user_count','desc')
+                           ->take($numbereviewers)
+                           ->get();
+
+                           //foreach ($monthreviewers as $monthreviewer) {
+                             return $monthreviewers;
+                           //}
+                       }
+                       else{
+                        return 0;
+                       }
+      
 
     }
 

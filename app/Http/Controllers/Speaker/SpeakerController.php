@@ -143,17 +143,17 @@ class SpeakerController extends Controller
         }
     }
 
-    public function AllSpeakers(){
+    public static function AllSpeakers(){
       $speakers = DB::table('speakers')->count('id');
-      echo $speakers;
+      return $speakers;
     }
-    public function newSpeaker(){
+    public static function newSpeaker(){
       $now = Carbon::now();
       //$pre_month = ($now->month)-1;
       $pre = Carbon::now();
       $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
       $newSpeaker=Speaker::select('id')->whereBetween('created_at', [$pre, $now])->count();
-      echo $newSpeaker;
+      return $newSpeaker;
    }
   
 }

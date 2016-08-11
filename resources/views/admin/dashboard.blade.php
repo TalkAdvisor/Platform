@@ -35,7 +35,7 @@
 
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$speakers = DB::table('speakers')->count()}}</div>
+                                    <div class="huge">{{$AllSpeakers}}</div>
                                     <div>ALL Speakers!</div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     <i class="fa fa-wpforms fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$reviews = DB::table('reviews')->count()}}</div>
+                                    <div class="huge">{{$AllReviews}}</div>
                                     <div>ALL Reviews!</div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                     <i class="fa fa-comments fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$reviews = DB::table('reviews')->where('comment', '!=', '')->count()}}</div>
+                                    <div class="huge">{{$AllComments}}</div>
                                     <div>ALL Comments!</div>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                     <i class="fa fa-quote-left fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{$reviews = DB::table('reviews')->where('quote', '!=', '')->count()}}</div>
+                                    <div class="huge">{{$AllQuotes}}</div>
                                     <div>ALL Quotes!</div>
                                 </div>
                             </div>
@@ -117,7 +117,6 @@
                 </div>
             </div>
             <!-- /.row -->
-
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
@@ -127,14 +126,7 @@
                                     <i class="fa fa-users fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">
-                                        <?php
-                                        use App\Http\Controllers\Speaker\SpeakerController;
-                                         $speakerController = new SpeakerController;
-                                         $newSpeaker = $speakerController->newSpeaker();
-                                         echo $newSpeaker;
-                                        ?>
-                                    </div>
+                                    <div class="huge">{{$newSpeaker}}</div>
                                     <div>New Speakers!</div>
                                 </div>
                             </div>
@@ -156,14 +148,7 @@
                                     <i class="fa fa-wpforms fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">
-                                        <?php
-                                        use App\Http\Controllers\Review\ReviewController;
-                                         $reviewController = new ReviewController;
-                                         $newReview = $reviewController->newReview();
-                                         echo $newReview;
-                                        ?>
-                                    </div>
+                                    <div class="huge">{{$newReview}}</div>
                                     <div>New Reviews!</div>
                                 </div>
                             </div>
@@ -185,9 +170,7 @@
                                     <i class="fa fa-comments fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">
-                                        {{$reviewController->newComment()}}
-                                    </div>
+                                    <div class="huge">{{$newComment}}</div>
                                     <div>New Comments!</div>
                                 </div>
                             </div>
@@ -209,9 +192,7 @@
                                     <i class="fa fa-quote-left fa-4x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">
-                                        {{$reviewController->newQuote()}}
-                                    </div>
+                                    <div class="huge">{{$newQuote}}</div>
                                     <div>New Quotes!</div>
                                 </div>
                             </div>
@@ -226,10 +207,85 @@
                     </div>
                 </div>
             </div>
-            {{$reviewController->maxReviewer()}}
-            {{$reviewController->monthMaxReviewer()}}
-            <!-- /.row -->
+            <!-- /.row -->           
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Most of Review</h3>
+                        </div>
+                        <div class="panel-body" style="width:541px;">  
+                            <center>
+                                <img style="width:100px;position:absolute;margin: 49px 100px 20px -48px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$maxReviewer[0]->profile_picture}}">
+                                <h4>{{$maxReviewer[0]->name}}</h4>
+                            </center>
+                                <img style="width:100px;position:absolute;margin: 193px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$maxReviewer[1]->profile_picture}}">
+                                <h4 style="position:absolute;margin: 160px 100px 20px 46px;">{{$maxReviewer[1]->name}}</h4>
+                                <img style="width:100px;position:absolute;margin: 141px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$maxReviewer[2]->profile_picture}}">
+                                <h4 style="position:absolute;margin: 104px 100px 20px 407px;">{{$maxReviewer[2]->name}}</h4>
+                            <center>
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                            </center>
+                        </div>
+                    </div>            
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Most of Review this month</h3>
+                        </div>
+                        <div class="panel-body" style="width:541px;">
+                        <?php 
+                            switch (count($monthMaxReviewer)){
+                                case 0:
+                                  echo "This month has 0 review!";
+                                  break;  
+                                case 1:?>
+                        <center>
+                                <img style="width:100px;position:absolute;margin: 49px 100px 20px -48px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[0]->profile_picture}}">
+                                <h4>{{$monthMaxReviewer[0]->name}}</h4>
+                            </center>
+                            <center>
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                            </center>
 
+                        <?php 
+                                  break;
+                                case 2:?>
+                        <center>
+                                <img style="width:100px;position:absolute;margin: 49px 100px 20px -48px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[0]->profile_picture}}">
+                                <h4>{{$monthMaxReviewer[0]->name}}</h4>
+                            </center>
+                                <img style="width:100px;position:absolute;margin: 193px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[1]->profile_picture}}">
+                                <h4 style="position:absolute;margin: 160px 100px 20px 46px;">{{$monthMaxReviewer[1]->name}}</h4>
+                            <center>
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                            </center>
+                        <?php
+                                  break;
+                                case 3:?>
+                        <center>
+                                <img style="width:100px;position:absolute;margin: 49px 100px 20px -48px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[0]->profile_picture}}">
+                                <h4>{{$monthMaxReviewer[0]->name}}</h4>
+                            </center>
+                                <img style="width:100px;position:absolute;margin: 193px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[1]->profile_picture}}">
+                                <h4 style="position:absolute;margin: 160px 100px 20px 46px;">{{$monthMaxReviewer[1]->name}}</h4>
+                                <img style="width:100px;position:absolute;margin: 141px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[2]->profile_picture}}">
+                                <h4 style="position:absolute;margin: 104px 100px 20px 407px;">{{$monthMaxReviewer[2]->name}}</h4>
+                            <center>
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                            </center>
+                        <?php
+                                  break;
+                                default:
+                                    break;
+                            }
+                        ?>
+                        </div>
+                    </div>            
+                </div>
+            </div>
+            <!-- /.row -->           
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">

@@ -70,5 +70,10 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+    // public function getUser($id)
+    // {
+    //     $user = User::find($id);
+    //     return $user;
+    // }
 
 }

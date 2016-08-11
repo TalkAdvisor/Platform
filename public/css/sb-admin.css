@@ -326,3 +326,10 @@ ul.alert-dropdown {
 .panel-primary {
     border-color: rgba(92, 165, 208, 0.86);
 }*/
+.profile{
+    font-size:18px;
+    margin-top:20px;
+    padding:10px 10px 50px 10px;
+    background-color:rgba(251, 243, 243, 0.54);
+}
+

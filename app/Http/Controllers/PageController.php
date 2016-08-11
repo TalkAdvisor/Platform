@@ -19,6 +19,8 @@ use App\Model\Review;
 use App\User;
 use App\Model\Ratingoptions;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Speaker\SpeakerController;
+use App\Http\Controllers\Review\ReviewController;
 use App\Http\Requests\QuestionnaireFormRequest;
 use App\Http\Requests\SpeakerFormRequest;
 
@@ -70,7 +72,19 @@ class PageController extends Controller
                 return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("reviewsAll",Review::all())->with("reviewsOptions",Review::all())->with("talks",Talk::all())->with("scores",Util::getScores())->with("speakers",Speaker::all());
             case 'dashboard':
                 Session::flash('tab', 'dashboard');
-                return View::make('admin.dashboard');
+                $maxreviewer=ReviewController::maxReviewer();
+                $maxReviewerArray=array();
+                foreach ($maxreviewer as $Reviewer) {
+                    $max=User::find($Reviewer->user_id);
+                    array_push($maxReviewerArray, $max);
+                }
+                $monthMaxReviewer=ReviewController::monthMaxReviewer();
+                $monthMaxReviewerArray=array();
+                foreach ($monthMaxReviewer as $monthReviewer) {
+                    $month_reviewer=User::find($monthReviewer->user_id);
+                    array_push($monthMaxReviewerArray, $month_reviewer);
+                }
+                return View::make('admin.dashboard')->with("AllReviews",ReviewController::AllReviews())->with("AllComments",ReviewController::AllComments())->with("AllQuotes",ReviewController::AllQuotes())->with("newReview",ReviewController::newReview())->with("newComment",ReviewController::newComment())->with("newQuote",ReviewController::newQuote())->with("maxReviewer",$maxReviewerArray)->with("monthMaxReviewer",$monthMaxReviewerArray)->with("AllSpeakers",SpeakerController::AllSpeakers())->with("newSpeaker",SpeakerController::newSpeaker());
             default:
                 return Redirect::to('/');
         }
