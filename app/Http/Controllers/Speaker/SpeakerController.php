@@ -155,6 +155,6 @@ class SpeakerController extends Controller
       $newSpeaker=Speaker::select('id')->whereBetween('created_at', [$pre, $now])->count();
       echo $newSpeaker;
    }
-  }
+  
 }
 

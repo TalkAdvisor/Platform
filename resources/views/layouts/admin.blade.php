@@ -20,9 +20,6 @@
     <!-- Morris Charts CSS -->
     <link href={!! json_encode(url('/css/plugins/morris.css')) !!} rel="stylesheet">
 
-    <!-- Flot Charts CSS -->
-    <link href={!! json_encode(url('/css/plugins/examples.css')) !!} rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css"
@@ -40,8 +37,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
     <!--<script type="text/javascript" src="http://www.tutorialrepublic.com/examples/js/typeahead.min.js"></script>-->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+    <!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> -->
+    <!-- <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script> -->
     <script type="text/javascript" src="{{url('js/typeahead.bundle.min.js')}}"></script>
     
     <!-- cropImage -->
