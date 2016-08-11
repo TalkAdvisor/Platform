@@ -146,7 +146,7 @@
                                         <div id="speaker-photo">
                                             <?php 
                                                 if(old('hidden-speaker-img') == NULL) {
-                                                    echo "<img id='speaker-img' src='../../img/user.png' value=''>";
+                                                    echo "<img id='speaker-img' src='../../admin/img/user.png' value=''>";
                                                 } else {
                                                     echo "<img id='speaker-img' src=".old('hidden-speaker-img')." value=''>";
                                                 }
@@ -247,7 +247,7 @@
             $('.alert').remove();
             // $('.cropit-preview-image').attr('src', '');
             $('#speakerForm').trigger("reset");
-            $('#speaker-img').attr('src','../../img/user.png');    
+            $('#speaker-img').attr('src','../../admin/img/user.png');    
             $('#speakerForm').attr('action','{{url('speaker')}}');
             $('#speakerForm').attr('method','POST');
             $('#gridSystemModalLabel').text('Create Speaker');
@@ -279,7 +279,7 @@
                     $('#speaker-email').val(data.speaker_email);
                     $('#hidden-img-name').val(data.speaker_photo);
                     if(data.local_path == null){
-                        $('#speaker-img').attr('src','../../img/user.png');    
+                        $('#speaker-img').attr('src','../../admin/img/user.png');    
                     } else {
                         $('#speaker-img').attr('src', data.local_path);
                     }
@@ -372,7 +372,7 @@
                         html = result.html; 
                     } 
                     if (result.src) { 
-                        html = '<img src="' + result.src + '" />'; 
+                        // html = '<img src="' + result.src + '" />'; 
                         cropImageBase64 = result.src;
                         document.getElementById('speaker-img').setAttribute( 'src', cropImageBase64);
                         $('#hidden-speaker-img').val(cropImageBase64);
