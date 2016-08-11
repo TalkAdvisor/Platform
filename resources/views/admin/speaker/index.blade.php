@@ -372,19 +372,11 @@
                         html = result.html; 
                     } 
                     if (result.src) { 
-                        // html = '<img src="' + result.src + '" />'; 
                         cropImageBase64 = result.src;
                         document.getElementById('speaker-img').setAttribute( 'src', cropImageBase64);
                         $('#hidden-speaker-img').val(cropImageBase64);
-                    } 
-                    // $("#result").html(html); 
+                    }                     
                 }
-            // $('.cropCommit').click(function() {
-            //     // console.log(cropImageBase64);
-            //     html = '<img src="' + cropImageBase64 + '" />';
-            //     $("#speaker-photo").html(html);
-            //     $('#cropImage').modal('hide');
-            // });
         }); 
     </script>
     <style>
