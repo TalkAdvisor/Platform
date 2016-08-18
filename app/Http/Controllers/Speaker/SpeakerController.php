@@ -155,6 +155,14 @@ class SpeakerController extends Controller
       $newSpeaker=Speaker::select('id')->whereBetween('created_at', [$pre, $now])->count();
       return $newSpeaker;
    }
-  
-}
-
+   public static function lastSpeaker(){
+      $now = Carbon::now();
+      $pre_month = ($now->month)-1;
+      $pre_firstDay = Carbon::now();
+      $pre_firstDay->setDate($now->year,$pre_month,1)->setTime(0, 0, 0)->toDateTimeString();
+      $pre_lastDay = Carbon::now();
+      $pre_lastDay->setDate($now->year,$pre_month,31)->setTime(23, 59, 59)->toDateTimeString();
+      $lastSpeaker=Speaker::select('id')->whereBetween('created_at', [$pre_firstDay, $pre_lastDay])->count();
+      return $lastSpeaker;
+   }
+  }

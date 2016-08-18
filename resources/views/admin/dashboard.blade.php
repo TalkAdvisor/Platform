@@ -26,7 +26,7 @@
             <!-- /.row -->
 
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -40,16 +40,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -62,16 +55,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -84,16 +70,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -106,19 +85,18 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
             <!-- /.row -->
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i> This Month
+                </li>
+            </ol>
+            <!-- /.row -->
             <div class="row">
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -131,16 +109,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -153,16 +124,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-yellow">
                         <div class="panel-heading">
                             <div class="row">
@@ -175,16 +139,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-2 col-md-6">
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
@@ -197,13 +154,75 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i> Last Month
+                </li>
+            </ol>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-2 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-users fa-4x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{$lastSpeaker}}</div>
+                                    <div>Last Speakers!</div>
+                                </div>
                             </div>
-                        </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-wpforms fa-4x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{$lastReview}}</div>
+                                    <div>Last Reviews!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-comments fa-4x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{$lastComment}}</div>
+                                    <div>Last Comments!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-quote-left fa-4x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{$lastQuote}}</div>
+                                    <div>Last Quotes!</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -224,7 +243,7 @@
                                 <img style="width:100px;position:absolute;margin: 141px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$maxReviewer[2]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 104px 100px 20px 407px;">{{$maxReviewer[2]->name}}</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
                             </center>
                         </div>
                     </div>            
@@ -246,7 +265,7 @@
                                 <h4>{{$monthMaxReviewer[0]->name}}</h4>
                             </center>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
                             </center>
 
                         <?php 
@@ -259,7 +278,7 @@
                                 <img style="width:100px;position:absolute;margin: 193px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[1]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 160px 100px 20px 46px;">{{$monthMaxReviewer[1]->name}}</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
                             </center>
                         <?php
                                   break;
@@ -273,7 +292,7 @@
                                 <img style="width:100px;position:absolute;margin: 141px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[2]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 104px 100px 20px 407px;">{{$monthMaxReviewer[2]->name}}</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
                             </center>
                         <?php
                                   break;

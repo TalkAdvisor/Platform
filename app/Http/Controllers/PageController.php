@@ -89,7 +89,7 @@ class PageController extends Controller
                 }else{
                     $monthMaxReviewerArray=0;
                 }
-                return View::make('admin.dashboard')->with("AllReviews",ReviewController::AllReviews())->with("AllComments",ReviewController::AllComments())->with("AllQuotes",ReviewController::AllQuotes())->with("newReview",ReviewController::newReview())->with("newComment",ReviewController::newComment())->with("newQuote",ReviewController::newQuote())->with("maxReviewer",$maxReviewerArray)->with("monthMaxReviewer",$monthMaxReviewerArray)->with("AllSpeakers",SpeakerController::AllSpeakers())->with("newSpeaker",SpeakerController::newSpeaker());
+                return View::make('admin.dashboard')->with("AllReviews",ReviewController::AllReviews())->with("AllComments",ReviewController::AllComments())->with("AllQuotes",ReviewController::AllQuotes())->with("newReview",ReviewController::newReview())->with("newComment",ReviewController::newComment())->with("newQuote",ReviewController::newQuote())->with("lastReview",ReviewController::lastReview())->with("lastComment",ReviewController::lastComment())->with("lastQuote",ReviewController::lastQuote())->with("maxReviewer",$maxReviewerArray)->with("monthMaxReviewer",$monthMaxReviewerArray)->with("AllSpeakers",SpeakerController::AllSpeakers())->with("newSpeaker",SpeakerController::newSpeaker())->with("lastSpeaker",SpeakerController::lastSpeaker());
             default:
                 return Redirect::to('/');
         }

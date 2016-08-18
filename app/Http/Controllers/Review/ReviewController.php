@@ -89,6 +89,36 @@ class ReviewController extends Controller
         $newQuote=Review::select('quote')->where('quote', '!=', '')->whereBetween('created_at', [$pre, $now])->count();
         return $newQuote;
     }
+    public static function lastReview(){
+        $now = Carbon::now();
+        $pre_month = ($now->month)-1;
+        $pre_firstDay = Carbon::now();
+        $pre_firstDay->setDate($now->year,$pre_month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $pre_lastDay = Carbon::now();
+        $pre_lastDay->setDate($now->year,$pre_month,31)->setTime(23, 59, 59)->toDateTimeString();
+        $newReview=Review::select('id')->whereBetween('created_at', [$pre_firstDay, $pre_lastDay])->count();
+        return $newReview;
+    }
+    public static function lastComment(){
+        $now = Carbon::now();
+        $pre_month = ($now->month)-1;
+        $pre_firstDay = Carbon::now();
+        $pre_firstDay->setDate($now->year,$pre_month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $pre_lastDay = Carbon::now();
+        $pre_lastDay->setDate($now->year,$pre_month,31)->setTime(23, 59, 59)->toDateTimeString();
+        $newComment=Review::select('comment')->where('comment', '!=', '')->whereBetween('created_at', [$pre_firstDay, $pre_lastDay])->count();
+        return $newComment;
+    }
+    public static function lastQuote(){
+        $now = Carbon::now();
+        $pre_month = ($now->month)-1;
+        $pre_firstDay = Carbon::now();
+        $pre_firstDay->setDate($now->year,$pre_month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $pre_lastDay = Carbon::now();
+        $pre_lastDay->setDate($now->year,$pre_month,31)->setTime(23, 59, 59)->toDateTimeString();
+        $newQuote=Review::select('quote')->where('quote', '!=', '')->whereBetween('created_at', [$pre_firstDay, $pre_lastDay])->count();
+        return $newQuote;
+    }
     public static function maxReviewer(){
         //$reviewers = array(DB::select('select  user_id from reviews group by user_id order by count(user_id) desc LIMIT 3;'));
         $reviewers = DB::table('reviews')
