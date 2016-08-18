@@ -243,7 +243,7 @@
                                 <img style="width:100px;position:absolute;margin: 141px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$maxReviewer[2]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 104px 100px 20px 407px;">{{$maxReviewer[2]->name}}</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
                             </center>
                         </div>
                     </div>            
@@ -265,7 +265,7 @@
                                 <h4>{{$monthMaxReviewer[0]->name}}</h4>
                             </center>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
                             </center>
 
                         <?php 
@@ -278,7 +278,7 @@
                                 <img style="width:100px;position:absolute;margin: 193px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[1]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 160px 100px 20px 46px;">{{$monthMaxReviewer[1]->name}}</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
                             </center>
                         <?php
                                   break;
@@ -292,7 +292,7 @@
                                 <img style="width:100px;position:absolute;margin: 141px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[2]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 104px 100px 20px 407px;">{{$monthMaxReviewer[2]->name}}</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png">
+                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Artboard1.png">
                             </center>
                         <?php
                                   break;
