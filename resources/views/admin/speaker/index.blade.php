@@ -278,10 +278,10 @@
                     $('#speaker-source').val(data.source);
                     $('#speaker-email').val(data.speaker_email);
                     $('#hidden-img-name').val(data.speaker_photo);
-                    if(data.local_path == null){
+                    if(data.speaker_photo == null){
                         $('#speaker-img').attr('src','../../admin/img/user.png');    
                     } else {
-                        $('#speaker-img').attr('src', data.local_path);
+                        $('#speaker-img').attr('src', 'https://s3-ap-northeast-1.amazonaws.com/talk-advisor/speakers/' + data.speaker_photo);
                     }
                     $('#speakerForm').attr('action',url+'/'+speaker_id);
                     $('#speakerForm').attr('method','POST');
@@ -465,7 +465,7 @@
         #speaker-img{
             width: 400px;
             height: 400px;
-            border-radius: 20px;
+            border-radius: 10px;
         }
         .modal {
             overflow-y: scroll;
