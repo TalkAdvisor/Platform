@@ -371,7 +371,7 @@
                     if (result.html) { 
                         html = result.html; 
                     } 
-                    if (result.src) { 
+                    if (result.src) {
                         cropImageBase64 = result.src;
                         document.getElementById('speaker-img').setAttribute( 'src', cropImageBase64);
                         $('#hidden-speaker-img').val(cropImageBase64);

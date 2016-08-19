@@ -79,13 +79,15 @@
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
-                                            <!-- {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'style' => 'display:inline-block',
-                                                'url' => 'review/'.$review->id
-                                            ]) !!}
-                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!} -->
+                                            @role('admin')
+                                                {!! Form::open([
+                                                    'method' => 'DELETE',
+                                                    'style' => 'display:inline-block',
+                                                    'url' => 'review/'.$review->id
+                                                ]) !!}
+                                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::close() !!}
+                                            @endrole
                                         </div>
                                     </td>
                                 </tr>
@@ -130,13 +132,15 @@
                                     <td>
                                         <div>
                                         <button class="btn btn-info open-modal" name="talk_update" value="{{$review->id}}" id="btn-update">Update</button>
-                                            <!-- {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'style' => 'display:inline-block',
-                                                'url' => 'review/'.$review->id
-                                            ]) !!}
-                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!} -->
+                                            @role('admin')
+                                                {!! Form::open([
+                                                    'method' => 'DELETE',
+                                                    'style' => 'display:inline-block',
+                                                    'url' => 'review/'.$review->id
+                                                ]) !!}
+                                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::close() !!}
+                                            @endrole
                                         </div>
                                     </td>
                                 </tr>

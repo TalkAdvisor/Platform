@@ -32,6 +32,115 @@ class ReviewController extends Controller
         $review->review_options()->detach();
     }
 
+    public function store($request)
+    {
+        try{
+          $review = new Review;
+          $review->user_id =  $request->input('interviewee-id');
+          //$review->user_email =  $request->input('interviewee-email');
+          $review->comment =  ($request->input('comment')!= "")? $request->input('comment') : null;
+          $review->quote =  ($request->input('interviewee-quote')!= "")? $request->input('interviewee-quote') : null;
+          $review->talk_id =  $request->input('talk_id');
+          $review->speaker_id =  $request->input('speaker_id');
+          $review->save();
+
+          $review = Review::find($review->id);
+          $score_array = array(
+              1 => $request->input('total-score'),
+              2 => $request->input('relevance-score'),
+              3 => $request->input('clear-score'),
+              4 => $request->input('inspiration-score'),
+              5 => $request->input('interest-score'),
+              //6 => $request->input('content-score')
+          );
+          for($i=1;$i<=count($score_array);$i++) {
+              $review->review_options()->attach($i,['score'=>$score_array[$i]]);
+          }
+          $review->save();
+          // $formType = $request->input('form-type');
+          $talkId = $review->id;
+          $speakerId = $request->input('speaker_id');
+
+          // switch($formType) {
+          //     case 'single':
+          //         return  Redirect::to('/review');
+          //     case 'flow':
+          //         return  Redirect::to('/form/review?speakerId='.$talkId);
+          //     case 'frontend':
+          //         return  Redirect::to('/speaker/'.$speakerId);
+          // }
+          
+          return array(
+              'status' => true,
+              'review' => $review,
+              'message' => 'Create Review ID: '.$review->id.' Speaker: '.$review->speaker->speaker_name.' Successful'
+            );
+        }
+        catch(\Exception $e){
+           // do task when error
+           return array(
+              'status' => false,
+              'message' => $e->getMessage()
+            );   // insert query
+        }
+    }
+
+    public function update($request, $id)
+    {
+        try{
+          $review = Review::find($id);
+          $review->user_id =  $request->input('interviewee-id');
+          //$review->user_email =  $request->input('interviewee-email');
+          $review->comment =  ($request->input('comment')!= "")? $request->input('comment') : null;
+          $review->quote =  ($request->input('interviewee-quote')!= "")? $request->input('interviewee-quote') : null;
+          $review->talk_id =  $request->input('talk_id');
+          $review->speaker_id =  $request->input('speaker_id');
+          $review->save();
+  
+          $reviewController = new ReviewController;
+          $response = $reviewController->deleteOption($id);
+  
+          $review = Review::find($review->id);
+          $score_array = array(
+              1 => $request->input('total-score'),
+              2 => $request->input('relevance-score'),
+              3 => $request->input('clear-score'),
+              4 => $request->input('inspiration-score'),
+              5 => $request->input('interest-score'),
+              //6 => $request->input('content-score')
+          );
+          for($i=1;$i<=count($score_array);$i++) {
+              $review->review_options()->attach($i,['score'=>$score_array[$i]]);
+          }
+          $review->save();
+          // $formType = $request->input('form-type');
+          $talkId = $review->id;
+          $speakerId = $request->input('speaker_id');
+  
+          // switch($formType) {
+          //     case 'single':
+          //         return  Redirect::to('/review');
+          //     case 'flow':
+          //         return  Redirect::to('/form/review?speakerId='.$talkId);
+          //     case 'frontend':
+          //         return  Redirect::to('/speaker/'.$speakerId);
+          // }
+          
+          return array(
+              'status' => true,
+              'review' => $review,
+              'message' => 'Update Review ID: '.$review->id.' Speaker: '.$review->speaker->speaker_name.' Successful'
+            );
+        }
+        catch(\Exception $e){
+           // do task when error
+           return array(
+              'status' => false,
+              'message' => $e->getMessage()
+            );   // insert query
+        }
+    }
+
     public function delete($id)
     {
         try{
