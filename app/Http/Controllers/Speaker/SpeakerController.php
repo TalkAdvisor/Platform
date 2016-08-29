@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Model\Speaker;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SpeakerFormRequest;
+// namespace App\Http\Controllers;
+use App\Http\Requests;
 
 class SpeakerController extends Controller
 {
@@ -36,6 +38,17 @@ class SpeakerController extends Controller
 	        $speaker->speaker_title = $request->input('speaker-title');
 	        $speaker->speaker_description = $request->input('speaker-description');
           $speaker->source = $request->input('speaker-source');
+
+          $youtubeURL= $request->input('speaker-video');
+          if (preg_match("/watch/", $youtubeURL)) {
+            $key=strrchr($youtubeURL,"=");
+            $key =substr($key,1,11);
+            $newURL = "https://www.youtube.com/embed/$key";       
+            $speaker->video=$newURL;
+          } else {
+            $speaker->video=$youtubeURL;
+          }
+
 	        $speaker->speaker_email = $request->input('speaker-email');
 	        $image = $request->input('hidden-speaker-img-name');
           $file = $request->input('hidden-speaker-img');
@@ -72,7 +85,8 @@ class SpeakerController extends Controller
            	);   // insert query
         }
     }
-
+    //https://www.youtube.com/watch?v=96_eElX3Vik
+    //"/^(https?:\/\/+[\w\-]+\.[\w\-]+)/i"
     public function update($request, $id)
     {
         try{
@@ -83,6 +97,18 @@ class SpeakerController extends Controller
 	        $speaker->speaker_title = $request->input('speaker-title');
 	        $speaker->speaker_description = $request->input('speaker-description');
           $speaker->source = $request->input('speaker-source');
+          
+          $youtubeURL= $request->input('speaker-video');
+          if (preg_match("/www\.youtube\.com\/watch\?v\=/", $youtubeURL)) {
+            $key=strrchr($youtubeURL,"=");
+            $key =substr($key,1,11);
+            $newURL = "https://www.youtube.com/embed/$key";       
+            $speaker->video=$newURL;
+          } else {
+            $speaker->video=$youtubeURL;
+          }
+          
+
 	        $speaker->speaker_email = $request->input('speaker-email');
 	        $image = $request->input('hidden-speaker-img-name');
           $file = $request->input('hidden-speaker-img');
@@ -136,7 +162,7 @@ class SpeakerController extends Controller
         }
         catch(\Exception $e){
            // do task when error
-           return array(
+            return array(
            		'status' => false,
            		'message' => $e->getMessage()
            	);   // insert query
@@ -154,8 +180,8 @@ class SpeakerController extends Controller
       $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
       $newSpeaker=Speaker::select('id')->whereBetween('created_at', [$pre, $now])->count();
       return $newSpeaker;
-   }
-   public static function lastSpeaker(){
+    }
+    public static function lastSpeaker(){
       $now = Carbon::now();
       $pre_month = ($now->month)-1;
       $pre_firstDay = Carbon::now();
@@ -164,5 +190,42 @@ class SpeakerController extends Controller
       $pre_lastDay->setDate($now->year,$pre_month,31)->setTime(23, 59, 59)->toDateTimeString();
       $lastSpeaker=Speaker::select('id')->whereBetween('created_at', [$pre_firstDay, $pre_lastDay])->count();
       return $lastSpeaker;
-   }
-  }
+    }
+
+    public function search(Request $request){
+        if($request->ajax()){
+            $output="";
+            $customers=DB::table('speakers')->where('speaker_name', 'LIKE', '%'.$request->search.'%')
+                                            ->orwhere('speaker_englishname', 'LIKE', '%'.$request->search.'%')
+                                            // ->take(9)
+                                            ->get();
+            if ($customers) {
+                foreach ($customers as $key => $customer) {
+                    $output.='<tr>'.
+                             '<td>'.$customer->id.'</td>'.
+                             '<td>'.$customer->speaker_name.'</td>'.
+                             '<td>'.$customer->speaker_englishname.'</td>'.
+                             '<td>'.$customer->speaker_company.'</td>'.
+                             '<td>'.$customer->speaker_title.'</td>'.
+                             '<td>'.$customer->speaker_email.'</td>'.
+                             '<td><div><button class="btn btn-info open-modal" name="speaker_update" value="'.$customer->id.'" id="btn-update">Update</button></div></td>'.
+                              // @role('admin')
+                              //     {!! Form::open([
+                              //         'method' => 'DELETE',
+                              //         'style' => 'display:inline-block',
+                              //         'url' => 'speaker/'.$speaker->id
+                              //     ]) !!}
+                              //         {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                              //     {!! Form::close() !!}
+                              // @endrole
+                             '</tr>';
+                             
+                }
+                return Response($output);
+            }
+
+
+        }
+
+    }
+}

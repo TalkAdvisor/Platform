@@ -11,7 +11,6 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Review
-                        <small>Subheading</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li>
@@ -30,9 +29,9 @@
             @endif
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="row">
+                    <div class="row row-bottom">
                         <div class="col-sm-10">
-                            <h2>Review</h2>
+
                         </div>
                         <div class="col-sm-1">
                             <button type="submit" class="btn btn-default btn-hide" id="btn-view">
@@ -95,7 +94,7 @@
                             </tbody>
                         </table>
                     </div>
-                     <div class="table-responsive table-hide">
+                    <div class="table-responsive table-hide">
                         <table class="table table-bordered table-hover">
                             <thead>
                             <tr>
@@ -284,8 +283,8 @@
                                        value="single">
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </form>
                     </div><!-- /.modal-content -->
@@ -321,6 +320,10 @@
         var url = "review";
         //display modal form for creating new speaker
         $('#btn-add').click(function(){
+            $('#gridSystemModal').modal({
+                backdrop: 'static',
+                keyboard: false , // to prevent closing with Esc button (if you want this too)
+            });
             $('.alert').remove();
             $('#reviewForm').trigger("reset");
             $('#reviewForm').attr('action','{{url('review')}}');
@@ -340,6 +343,10 @@
             @endforeach 
 
             if("{{Auth::user()->id}}" == upId){
+                $('#gridSystemModal').modal({
+                    backdrop: 'static',
+                    keyboard: false , // to prevent closing with Esc button (if you want this too)
+                });
                 $('#reviewForm').trigger("reset");
                 $('.alert').remove();
                 var review_id = $(this).val();
@@ -492,6 +499,9 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 400px;
+        }
+        .row-bottom{
+            margin-bottom: 20px;
         }
     </style>
 @endsection

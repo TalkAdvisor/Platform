@@ -26,9 +26,14 @@
             @endif
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <h2>Speaker</h2>
+                    <div class="row row-bottom">
+                        <div class="col-sm-10">
+
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-default btn-hide" id="btn-view">
+                                <i class="fa fa-btn fa-search" id="check">搜尋講者</i> 
+                            </button>
                         </div>
                         <div class="col-sm-1">
                             <button type="submit" class="btn btn-default" id="btn-add">
@@ -36,7 +41,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive table-show">
                         <table class="table table-bordered table-hover">
                             <thead>
                             <tr>
@@ -60,22 +65,55 @@
                                     <td>{{$speaker->speaker_email}}</td>
                                     <td>
                                         <div>
-                                        <button class="btn btn-info open-modal" name="speaker_update" value="{{$speaker->id}}" id="btn-update">Update</button>
-                                        @role('admin')
-                                            {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'style' => 'display:inline-block',
-                                                'url' => 'speaker/'.$speaker->id
-                                            ]) !!}
-                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                            {!! Form::close() !!}
-                                        @endrole
+                                            <button class="btn btn-info open-modal" name="speaker_update" value="{{$speaker->id}}" id="btn-update">Update</button>
+                                            @role('admin')
+                                                {!! Form::open([
+                                                    'method' => 'DELETE',
+                                                    'style' => 'display:inline-block',
+                                                    'url' => 'speaker/'.$speaker->id
+                                                ]) !!}
+                                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::close() !!}
+                                            @endrole
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>  
+                    </div>
+                    <div class="table-responsive table-hide">
+                        <div class="container" style="width:100%">
+                            <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3>Search</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control col-sm-10" id="search" name="search" style="margin-bottom: 14px;">
+                                        </div>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>English Name</th>
+                                                <th>Company</th>
+                                                <th>Title</th>
+                                                <th>Email</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="tbody">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     {{ $speakers->render() }}
                 </div>
@@ -98,41 +136,64 @@
                                     <div class="form-group col-md-12">
                                         <h3><label for="speaker-name">講師的中文姓名</label><font class="redStar"> *</font></h3>
                                         <p>英文講師：如沒有中文名字，請用英文名字</p>
-                                        <input type="text" name="speaker-name" id="speaker-name" class="form-control" placeholder="例如：黃韋力" value="{{old('speaker-name')}}"> @if ($errors->has('speaker-name'))
+                                        <input type="text" name="speaker-name" id="speaker-name" class="form-control" placeholder="例如：黃韋力" value="{{old('speaker-name')}}"> 
+                                        @if ($errors->has('speaker-name'))
                                             <br>
-                                            <p class="alert alert-danger">{{ $errors->first('speaker-name') }}</p> @endif
+                                            <p class="alert alert-danger">{{ $errors->first('speaker-name') }}</p> 
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-12">
                                         <h3><label for="speaker-en-name">講師的英文姓名</label></h3>
-                                        <input type="text" name="speaker-en-name" id="speaker-en-name" class="form-control" placeholder="例如：Willie Huang" value="{{old('speaker-en-name')}}"> @if ($errors->has('speaker-en-name'))
+                                        <input type="text" name="speaker-en-name" id="speaker-en-name" class="form-control" placeholder="例如：Willie Huang" value="{{old('speaker-en-name')}}"> 
+                                        @if ($errors->has('speaker-en-name'))
                                             <br>
-                                            <p class="alert alert-danger">{{ $errors->first('speaker-en-name') }}</p> @endif
+                                            <p class="alert alert-danger">{{ $errors->first('speaker-en-name') }}</p> 
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-12">
                                         <h3><label for="speaker-company">講師的公司</label><font class="redStar"> *</font></h3>
                                         <p></p>
-                                        <input type="text" name="speaker-company" id="speaker-company" class="form-control" value="{{old('speaker-company')}}"> @if ($errors->has('speaker-company'))
+                                        <input type="text" name="speaker-company" id="speaker-company" class="form-control" value="{{old('speaker-company')}}"> 
+                                        @if ($errors->has('speaker-company'))
                                             <br>
-                                            <p class="alert alert-danger">{{ $errors->first('speaker-company') }}</p> @endif
+                                            <p class="alert alert-danger">{{ $errors->first('speaker-company') }}</p> 
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <h3><label for="speaker-title">講師的職位</label></h3>
+                                        <h3><label for="speaker-title">講師的職位</label><font class="redStar"> *</font></h3>
                                         <p></p>
                                         <input type="text" name="speaker-title" id="speaker-title" class="form-control" value="{{old('speaker-title')}}">
+                                        @if ($errors->has('speaker-title'))
+                                            <br>
+                                            <p class="alert alert-danger">{{ $errors->first('speaker-title') }}</p> 
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <h3><label for="speaker-description">講師的簡單介紹</label></h3>
+                                        <h3><label for="speaker-description">講師的簡單介紹</label><font class="redStar"> *</font></h3>
                                         <p>盡量廣泛，不要限制於本次的演講。如果網路上尚有講師的簡介可以直接複製到這裡或者提供超鏈接</p>
                                         <textarea rows="5" name="speaker-description" id="speaker-description" class="form-control">{{old('speaker-description')}}</textarea>
+                                        @if ($errors->has('speaker-description'))
+                                            <br>
+                                            <p class="alert alert-danger">{{ $errors->first('speaker-description') }}</p> 
+                                        @endif
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <h3><label for="speaker-source">介紹的來源</label></h3>
+                                        <h3><label for="speaker-source">介紹的來源</label><font class="redStar"> *</font></h3>
                                         <p></p>
                                         <input type="text" name="speaker-source" id="speaker-source" class="form-control" value="{{old('speaker-source')}}">
+                                        @if ($errors->has('speaker-source'))
+                                            <br>
+                                            <p class="alert alert-danger">{{ $errors->first('speaker-source') }}</p> 
+                                        @endif
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <h3><label for="speaker-video">Youtube影片連結</label></h3>
+                                        <p></p>
+                                        <input type="text" name="speaker-video" id="speaker-video" class="form-control" placeholder="例如：https://www.youtube.com/watch?v=_XXXXXXXX" value="{{old('speaker-video')}}">
                                     </div>
                                     <div class="form-group col-md-12">
                                         <h3><label for="speaker-email">講師的email</label></h3>
-                                        <p>有了講師的email就可以邀請他設定他的profile。不知道可以留空白。</p>
+                                        <p>有了講師的email就可以邀請他設定他的profile。</p>
                                         <input type="text" name="speaker-email" id="speaker-email" class="form-control" value="{{old('speaker-email')}}">
                                         @if ($errors->has('speaker-email'))
                                         <br>
@@ -148,7 +209,7 @@
                                                 if(old('hidden-speaker-img') == NULL) {
                                                     echo "<img id='speaker-img' src='../../admin/img/user.png' value=''>";
                                                 } else {
-                                                    echo "<img id='speaker-img' src=".old('hidden-speaker-img')." value=''>";
+                                                    echo "<img id='speaker-img' src=".old('hidden-speaker-img')." value='Img'>";
                                                 }
                                             ?>
                                             <!-- <img id="speaker-img" src="../../img/user.png" value=""> -->
@@ -235,7 +296,7 @@
             // $('#cropImage').modal('show');
         </script>
     @endif
-    <script>
+    <script type="text/javascript">
     $(document).ready(function(){
         var url = "/admin/speaker";
         //display modal form for creating new speaker
@@ -261,6 +322,7 @@
         // });
 
         $('.open-modal').click(function(){
+            console.log("123");
             $('#speakerForm').trigger("reset");
             $('.alert').remove();
             var speaker_id = $(this).val(); 
@@ -277,7 +339,9 @@
                     $('#speaker-description').val(data.speaker_description);
                     $('#speaker-source').val(data.source);
                     $('#speaker-email').val(data.speaker_email);
+                    $('#speaker-video').val(data.video);
                     $('#hidden-img-name').val(data.speaker_photo);
+                    // $('#hidden-speaker-img').val(data.speaker_photo);
                     if(data.speaker_photo == null){
                         $('#speaker-img').attr('src','../../admin/img/user.png');    
                     } else {
@@ -296,18 +360,20 @@
         });
     });
     </script>
-    <!-- <script>
-      $(function() {
-        $('.image-editor').cropit({
-            exportZoom: 0.75,
-            imageBackground: true,
+    <script>
+        $('#search').on('keyup', function(){
+            $value = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '{{URL::to('admin/search')}}',
+                data: {'search':$value},
+                success: function (data) {
+                    $('.tbody').html(data);
+
+                }
+            });
         });
-        $('.export').click(function() {
-            var imageData = $('.image-editor').cropit('export');
-            $('#hidden-speaker-photo').val(imageData);
-        });
-      });
-    </script> -->
+    </script>
     <script>
         $(function(){ 
             var $uploadCrop; 
@@ -378,6 +444,25 @@
                     }                     
                 }
         }); 
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('.btn-hide').click(function(){
+                $('.table-hide').slideToggle("slow");
+                $('.pagination').slideToggle("slow");
+                $('.table-show').slideToggle("slow");
+            });
+            $("#check").click(function() {
+                    if ($(this).text() == "搜尋講者") 
+                      { 
+                         $(this).text("搜尋結束"); 
+                      } 
+                      else 
+                      { 
+                         $(this).text("搜尋講者"); 
+                      }; 
+            });
+        });
     </script>
     <style>
         button, a.btn { 
@@ -472,6 +557,12 @@
         }
         .cr-slider{
             cursor: move;
+        }
+        .table-hide{
+            display: none;
+        }
+        .row-bottom{
+            margin-bottom: 20px;
         }
     </style>
 @endsection
