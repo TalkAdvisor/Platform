@@ -464,7 +464,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src={!! json_encode(url('/js/jquery.min.js')) !!}></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
     <script src={!! json_encode(url('/js/metisMenu.min.js')) !!}></script>
     <script src={!! json_encode(url('/js/plugins/morris/raphael.min.js')) !!}></script>
     <script src={!! json_encode(url('/js/plugins/morris/morris.min.js')) !!}></script>

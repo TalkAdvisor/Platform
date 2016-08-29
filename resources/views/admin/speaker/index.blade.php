@@ -202,7 +202,7 @@
                                     <div class="form-group col-md-12">
                                         
                                         <h3><label for="speaker-photo">講師的照片</label></h3>
-                                        <p>有了講師的照片，就可以把它加在講師的profile上</p>
+                                        <p>最容易得到講者E-mail的方法，就是在講座結束之後向講者索取名片</p>
                                         <button type="button" id="crop" class="btn btn-default" data-toggle="modal" data-target="#cropImage" data-backdrop="static">選擇圖片</button>
                                         <div id="speaker-photo">
                                             <?php 
@@ -365,7 +365,7 @@
             $value = $(this).val();
             $.ajax({
                 type: 'GET',
-                url: '{{URL::to('admin/search')}}',
+                url: '{{URL::to('search')}}',
                 data: {'search':$value},
                 success: function (data) {
                     $('.tbody').html(data);
