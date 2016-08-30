@@ -246,7 +246,7 @@ class ReviewController extends Controller
         $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
         //set $pre is the first of month
         $numbereviewers = DB::table('reviews')
-                       ->select(DB::raw('user_id'))
+                       ->select(DB::raw('count(user_id), user_id'))
                        ->whereBetween('created_at',[$pre,$now])
                        ->groupBy('user_id')
                        ->count();
