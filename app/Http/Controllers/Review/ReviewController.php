@@ -264,8 +264,21 @@ class ReviewController extends Controller
                              return $monthreviewers;
                            //}
                        }
-                       else{
+                       else if($numbereviewers==0){
                         return 0;
+                       }
+                       else if($numbereviewers>=3){
+                        $monthreviewers = DB::table('reviews')
+                           ->select(DB::raw('count(*) as user_count, user_id'))
+                           ->whereBetween('created_at',[$pre,$now])
+                           ->groupBy('user_id')
+                           ->orderBy('user_count','desc')
+                           ->take(3)
+                           ->get();
+
+                           //foreach ($monthreviewers as $monthreviewer) {
+                             return $monthreviewers;
+                           //}
                        }
       
 
