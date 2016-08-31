@@ -197,6 +197,7 @@ class SpeakerController extends Controller
             $output="";
             $customers=DB::table('speakers')->where('speaker_name', 'LIKE', '%'.$request->search.'%')
                                             ->orwhere('speaker_englishname', 'LIKE', '%'.$request->search.'%')
+                                            ->orwhere('speaker_company', 'LIKE', '%'.$request->search.'%')
                                             // ->take(9)
                                             ->get();
             if ($customers) {

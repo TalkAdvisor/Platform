@@ -72,24 +72,45 @@ class PageController extends Controller
                 return View::make('admin.review.index')->with("reviews",Review::paginate(10))->with("reviewsAll",Review::all())->with("reviewsOptions",Review::all())->with("talks",Talk::all())->with("scores",Util::getScores())->with("speakers",Speaker::all());
             case 'dashboard':
                 Session::flash('tab', 'dashboard');
-                $maxreviewer=ReviewController::maxReviewer();
+                $maxReviewer=ReviewController::maxReviewer();
                 $maxReviewerArray=array();
-                foreach ($maxreviewer as $Reviewer) {
+                $countMaxReviewerArray=array();
+                foreach ($maxReviewer as $Reviewer) {
                     $max=User::find($Reviewer->user_id);
                     array_push($maxReviewerArray, $max);
+                    $countMax=$Reviewer->user_count;
+                    array_push($countMaxReviewerArray, $countMax);
                 }
                 
                 $monthMaxReviewer=ReviewController::monthMaxReviewer();
                 if($monthMaxReviewer!=0){
                     $monthMaxReviewerArray=array();
+                    $countMonthMaxReviewerArray=array();
                     foreach ($monthMaxReviewer as $monthReviewer) {
                         $month_reviewer=User::find($monthReviewer->user_id);
                         array_push($monthMaxReviewerArray, $month_reviewer);
+                        $count_month_reviewer=$monthReviewer->user_count;
+                        array_push($countMonthMaxReviewerArray, $count_month_reviewer);
                     }
                 }else{
                     $monthMaxReviewerArray=0;
                 }
-                return View::make('admin.dashboard')->with("AllReviews",ReviewController::AllReviews())->with("AllComments",ReviewController::AllComments())->with("AllQuotes",ReviewController::AllQuotes())->with("newReview",ReviewController::newReview())->with("newComment",ReviewController::newComment())->with("newQuote",ReviewController::newQuote())->with("lastReview",ReviewController::lastReview())->with("lastComment",ReviewController::lastComment())->with("lastQuote",ReviewController::lastQuote())->with("maxReviewer",$maxReviewerArray)->with("monthMaxReviewer",$monthMaxReviewerArray)->with("AllSpeakers",SpeakerController::AllSpeakers())->with("newSpeaker",SpeakerController::newSpeaker())->with("lastSpeaker",SpeakerController::lastSpeaker());
+
+                $lastMonthMaxReviewer=ReviewController::lastMonthMaxReviewer();
+                if($lastMonthMaxReviewer!=0){
+                    $lastMonthMaxReviewerArray=array();
+                    $countLastMonthMaxReviewerArray=array();
+                    foreach ($lastMonthMaxReviewer as $lastMonthReviewer) {
+                        $last_month_reviewer=User::find($lastMonthReviewer->user_id);
+                        array_push($lastMonthMaxReviewerArray, $last_month_reviewer);
+                        $last_count_month_reviewer=$lastMonthReviewer->user_count;
+                        array_push($countLastMonthMaxReviewerArray, $last_count_month_reviewer);
+                    }
+                }else{
+                    $lastMonthMaxReviewerArray=0;
+                }
+
+                return View::make('admin.dashboard')->with("AllReviews",ReviewController::AllReviews())->with("AllComments",ReviewController::AllComments())->with("AllQuotes",ReviewController::AllQuotes())->with("newReview",ReviewController::newReview())->with("newComment",ReviewController::newComment())->with("newQuote",ReviewController::newQuote())->with("lastReview",ReviewController::lastReview())->with("lastComment",ReviewController::lastComment())->with("lastQuote",ReviewController::lastQuote())->with("maxReviewer",$maxReviewerArray)->with("countMaxreviewer",$countMaxReviewerArray)->with("monthMaxReviewer",$monthMaxReviewerArray)->with("countMonthMaxReviewer",$countMonthMaxReviewerArray)->with("lastMonthMaxReviewer",$lastMonthMaxReviewerArray)->with("countLastMonthMaxReviewer",$countLastMonthMaxReviewerArray)->with("AllSpeakers",SpeakerController::AllSpeakers())->with("newSpeaker",SpeakerController::newSpeaker())->with("lastSpeaker",SpeakerController::lastSpeaker());
             default:
                 return Redirect::to('/');
         }

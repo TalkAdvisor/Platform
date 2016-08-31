@@ -231,13 +231,12 @@ class ReviewController extends Controller
     public static function maxReviewer(){
         //$reviewers = array(DB::select('select  user_id from reviews group by user_id order by count(user_id) desc LIMIT 3;'));
         $reviewers = DB::table('reviews')
-                       ->select(DB::raw('count(*) as user_count, user_id'))
+                       ->select(DB::raw('count(user_id) as user_count, user_id'))
                        ->groupBy('user_id')
                        ->orderBy('user_count','desc')
                        ->take(3)
                        ->get();
         return $reviewers;
-
     }
     public static function monthMaxReviewer(){
         $now = Carbon::now();
@@ -246,11 +245,10 @@ class ReviewController extends Controller
         $pre->setDate($now->year,$now->month,1)->setTime(0, 0, 0)->toDateTimeString();
         //set $pre is the first of month
         $numbereviewers = DB::table('reviews')
-                       ->select(DB::raw('count(user_id), user_id'))
+                       ->select(DB::raw('count(distinct user_id)'))
                        ->whereBetween('created_at',[$pre,$now])
-                       ->groupBy('user_id')
-                       ->count();
-                       if($numbereviewers!=0&&$numbereviewers<3){
+                       ->get();
+                       if($numbereviewers>0&&$numbereviewers<3){
                         //check has three reviewer create review
                         $monthreviewers = DB::table('reviews')
                            ->select(DB::raw('count(*) as user_count, user_id'))
@@ -267,10 +265,56 @@ class ReviewController extends Controller
                        else if($numbereviewers==0){
                         return 0;
                        }
-                       else if($numbereviewers>=3){
+                       else if($numbereviewers!=0&&$numbereviewers>=3){
                         $monthreviewers = DB::table('reviews')
                            ->select(DB::raw('count(*) as user_count, user_id'))
                            ->whereBetween('created_at',[$pre,$now])
+                           ->groupBy('user_id')
+                           ->orderBy('user_count','desc')
+                           ->take(3)
+                           ->get();
+
+                           //foreach ($monthreviewers as $monthreviewer) {
+                             return $monthreviewers;
+                           //}
+                       }
+      
+
+    }
+
+    public static function lastMonthMaxReviewer(){
+        $now = Carbon::now();
+        $pre_month = ($now->month)-1;
+        $pre_firstDay = Carbon::now();
+        $pre_firstDay->setDate($now->year,$pre_month,1)->setTime(0, 0, 0)->toDateTimeString();
+        $pre_lastDay = Carbon::now();
+        $pre_lastDay->setDate($now->year,$pre_month,31)->setTime(23, 59, 59)->toDateTimeString();
+        //set $pre is the first of month
+        $numbereviewers = DB::table('reviews')
+                       ->select(DB::raw('count(distinct user_id)'))
+                       ->whereBetween('created_at',[$pre_firstDay,$pre_lastDay])
+                       ->get();
+                       if($numbereviewers>0&&$numbereviewers<3){
+                        //check has three reviewer create review
+                        $monthreviewers = DB::table('reviews')
+                           ->select(DB::raw('count(*) as user_count, user_id'))
+                           ->whereBetween('created_at',[$pre_firstDay,$pre_lastDay])
+                           ->groupBy('user_id')
+                           ->orderBy('user_count','desc')
+                           ->take($numbereviewers)
+                           ->get();
+
+                           //foreach ($monthreviewers as $monthreviewer) {
+                             return $monthreviewers;
+                           //}
+                       }
+                       else if($numbereviewers==0){
+                        return 0;
+                       }
+                       else if($numbereviewers!=0&&$numbereviewers>=3){
+                        $monthreviewers = DB::table('reviews')
+                           ->select(DB::raw('count(*) as user_count, user_id'))
+                           ->whereBetween('created_at',[$pre_firstDay,$pre_lastDay])
                            ->groupBy('user_id')
                            ->orderBy('user_count','desc')
                            ->take(3)

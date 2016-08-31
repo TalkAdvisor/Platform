@@ -315,13 +315,7 @@
             $('#gridSystemModal').modal('show');
         });
 
-        // $('#crop').click(function(){
-        //     $('#cropImage').modal({
-        //         // backdrop: 'static',
-        //     });
-        // });
-
-        $('.open-modal').click(function(){
+        $(document.body).on('click', '.open-modal' ,function(){
             console.log("123");
             $('#speakerForm').trigger("reset");
             $('.alert').remove();
@@ -369,7 +363,6 @@
                 data: {'search':$value},
                 success: function (data) {
                     $('.tbody').html(data);
-
                 }
             });
         });
