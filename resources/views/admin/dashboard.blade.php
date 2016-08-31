@@ -244,7 +244,7 @@
                                 <h4 style="position:absolute;margin: 57px 0px 20px 350px;">{{$maxReviewer[2]->name}} : {{$countMaxreviewer[2]}}篇評論</h4>
                             <center>
                                 <!-- <img style="width:500px;margin-top:100px;" src="../../img/Artboard1.png"> -->
-                                <img style="width:500px;margin-top:80px;" src="../../img/Podium.png">
+                                <img style="width:500px;margin-top:80px;" src="../../img/admin/Podium.png">
                             </center>
                         </div>
                     </div>            
@@ -266,7 +266,7 @@
                                 <h4>{{$monthMaxReviewer[0]->name}} : {{$countMonthMaxReviewer[0]}}篇評論</h4>
                             </center>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Podium.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/admin/Podium.png">
                             </center>
 
                         <?php 
@@ -279,7 +279,7 @@
                                 <img style="width:100px;position:absolute;margin: 64px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[1]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 30px 100px 20px 10px;">{{$monthMaxReviewer[1]->name}} : {{$countMonthMaxReviewer[1]}}篇評論</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Podium.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/admin/Podium.png">
                             </center>
                         <?php
                                   break;
@@ -293,7 +293,7 @@
                                 <img style="width:100px;position:absolute;margin: 90px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[2]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 57px 0px 20px 350px;">{{$monthMaxReviewer[2]->name}} : {{$countMonthMaxReviewer[2]}}篇評論</h4>
                             <center>
-                                <img style="width:500px;margin-top:80px;" src="../../img/Podium.png">
+                                <img style="width:500px;margin-top:80px;" src="../../img/admin/Podium.png">
                             </center>
                         <?php
                                   break;
@@ -326,7 +326,7 @@
                                 <h4>{{$lastMonthMaxReviewer[0]->name}} : {{$countLastMonthMaxReviewer[0]}}篇評論</h4>
                             </center>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Podium.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/admin/Podium.png">
                             </center>
 
                         <?php 
@@ -339,7 +339,7 @@
                                 <img style="width:100px;position:absolute;margin: 64px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$lastMonthMaxReviewer[1]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 30px 100px 20px 10px;">{{$lastMonthMaxReviewer[1]->name}} : {{$countLastMonthMaxReviewer[1]}}篇評論</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../img/Podium.png">
+                                <img style="width:500px;margin-top:100px;" src="../../img/admin/Podium.png">
                             </center>
                         <?php
                                   break;
@@ -353,7 +353,7 @@
                                 <img style="width:100px;position:absolute;margin: 90px 100px 20px 373px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$lastMonthMaxReviewer[2]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 57px 0px 20px 350px;">{{$lastMonthMaxReviewer[2]->name}} : {{$countLastMonthMaxReviewer[2]}}篇評論</h4>
                             <center>
-                                <img style="width:500px;margin-top:80px;" src="../../img/Podium.png">
+                                <img style="width:500px;margin-top:80px;" src="../../img/admin/Podium.png">
                             </center>
                         <?php
                                   break;
