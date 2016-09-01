@@ -279,7 +279,7 @@
                                 <img style="width:100px;position:absolute;margin: 64px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$monthMaxReviewer[1]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 30px 100px 20px 10px;">{{$monthMaxReviewer[1]->name}} : {{$countMonthMaxReviewer[1]}}篇評論</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Podium.png">
+                                <img style="width:500px;margin-top:80px;" src="../../admin/img/Podium.png">
                             </center>
                         <?php
                                   break;
@@ -326,7 +326,7 @@
                                 <h4>{{$lastMonthMaxReviewer[0]->name}} : {{$countLastMonthMaxReviewer[0]}}篇評論</h4>
                             </center>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Podium.png">
+                                <img style="width:500px;margin-top:80px;" src="../../admin/img/Podium.png">
                             </center>
 
                         <?php 
@@ -339,7 +339,7 @@
                                 <img style="width:100px;position:absolute;margin: 64px 100px 20px 29px;" src="https://s3-ap-northeast-1.amazonaws.com/talk-advisor/users/{{$lastMonthMaxReviewer[1]->profile_picture}}">
                                 <h4 style="position:absolute;margin: 30px 100px 20px 10px;">{{$lastMonthMaxReviewer[1]->name}} : {{$countLastMonthMaxReviewer[1]}}篇評論</h4>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Podium.png">
+                                <img style="width:500px;margin-top:80px;" src="../../admin/img/Podium.png">
                             </center>
                         <?php
                                   break;
