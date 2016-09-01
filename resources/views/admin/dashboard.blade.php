@@ -266,7 +266,7 @@
                                 <h4>{{$monthMaxReviewer[0]->name}} : {{$countMonthMaxReviewer[0]}}篇評論</h4>
                             </center>
                             <center>
-                                <img style="width:500px;margin-top:100px;" src="../../admin/img/Podium.png">
+                                <img style="width:500px;margin-top:80px;" src="../../admin/img/Podium.png">
                             </center>
 
                         <?php 
